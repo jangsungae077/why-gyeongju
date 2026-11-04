@@ -1,0 +1,812 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<title>왜? 경주</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&family=Gowun+Batang:wght@400;700&display=swap">
+<style>
+/* Layout: one phone-width paper column; each view is a stack of paper-cut cards on cream. Single light "paper" theme by choice. */
+:root{
+  --paper:#FFF6E9; --card:#FFFDF8; --ink:#16213E; --ink-soft:#3D4766; --ink-faint:#5A6380;
+  --coral:#3F78BD; --coral-deep:#2E5F9E; --mint:#9ED9C5; --mint-bg:#E6F5EE; --sun:#FFD66B; --sun-bg:#FFF1C9;
+  --sky-bg:#DDF0FF; --lilac-bg:#EBDDF7; --peach-bg:#FFE3D8; --shadow:rgba(22,33,62,.13); --line:#EADCC8;
+  --display:'Jua', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --body:'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  color-scheme: light;
+}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--body);font-size:17px;line-height:1.55;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:12px 40px;
+  background-image:radial-gradient(rgba(22,33,62,.035) 1px, transparent 1.2px);background-size:14px 14px}
+.app{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3,.disp{font-family:var(--display);font-weight:400;margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+button{font:inherit;cursor:pointer;border:0}
+.btn,label.btn{box-sizing:border-box}
+body{word-break:keep-all;overflow-wrap:anywhere}
+button:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--coral-deep);outline-offset:2px}
+.paper{background:var(--card);border-radius:22px;box-shadow:5px 7px 0 var(--shadow);padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--display);font-size:20px;padding:13px 20px;border-radius:999px;background:var(--coral-deep);color:#FFFDF8;box-shadow:3px 4px 0 var(--shadow);min-height:52px}
+.btn:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--shadow)}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.btn.sun{background:var(--sun);color:var(--ink)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.muted{color:var(--ink-faint);font-size:14px}
+.pill{display:inline-block;font-family:var(--display);font-size:15px;padding:4px 12px;border-radius:999px;background:var(--sun-bg);color:var(--ink)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.back{background:var(--card);border-radius:999px;padding:8px 14px;font-family:var(--display);font-size:16px;box-shadow:3px 4px 0 var(--shadow);color:var(--ink)}
+.stampcount{font-family:var(--display);font-size:16px;color:var(--ink)}
+.dots{display:inline-flex;gap:5px;margin-left:6px;vertical-align:middle}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block}
+.dots i.on{background:var(--coral)}
+
+/* start */
+.hero{text-align:center;padding:22px 8px 6px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.eyebrow{font-family:var(--display);color:var(--coral-deep);font-size:15px;letter-spacing:.02em}
+.logo{font-size:64px;color:var(--ink)}
+.logo span{color:var(--coral)}
+.tag{font-family:var(--display);font-size:20px}
+.cast{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin-top:6px}
+.cast > div{min-width:0}
+.cast svg{display:block;width:100%;height:auto}
+.ground{height:14px;border-radius:10px;background:var(--mint);box-shadow:3px 4px 0 var(--shadow);margin:-4px 6px 0}
+.choice{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;color:var(--ink)}
+.opt b{font-family:var(--display);font-weight:400;font-size:19px;display:block}
+.opt small{color:var(--ink-faint);font-size:14px}
+.opt[aria-pressed="true"]{border-color:var(--coral-deep);background:var(--sky-bg)}
+.opt .tick{margin-left:auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none}
+.opt[aria-pressed="true"] .tick{background:var(--coral-deep);border-color:var(--coral-deep);box-shadow:inset 0 0 0 4px var(--sky-bg)}
+label.field{display:flex;flex-direction:column;gap:6px;font-family:var(--display);font-size:16px}
+input[type=text],textarea{font:inherit;font-size:17px;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:11px 13px;width:100%;box-sizing:border-box}
+textarea{min-height:84px;resize:vertical}
+.promise{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.promise span{font-size:13px;background:var(--mint-bg);border-radius:999px;padding:4px 10px;color:#2F5A4B}
+
+/* map */
+.map{position:relative;aspect-ratio:3/4;max-width:100%;background:#E3EFFB;border-radius:26px;box-shadow:5px 7px 0 var(--shadow);overflow:hidden}
+.map svg.road{position:absolute;inset:0;width:100%;height:100%}
+.spot{position:absolute;width:44%;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;padding:0;color:var(--ink)}
+.spot .ch{width:72%;position:relative}
+.spot .ch svg{display:block;width:100%;height:auto}
+.spot .nm{font-family:var(--display);font-size:17px;background:var(--card);padding:3px 14px;border-radius:999px;box-shadow:3px 4px 0 var(--shadow)}
+.spot .num{position:absolute;left:-6px;top:-4px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#FFF6E9;font-family:var(--display);font-size:16px;display:grid;place-items:center}
+.spot .done{position:absolute;right:-8px;top:-6px;width:58px;height:58px;border-radius:50%;border:3px solid var(--coral);color:var(--coral-deep);font-family:var(--display);font-size:14px;display:grid;place-items:center;transform:rotate(-14deg);background:rgba(255,253,248,.88);line-height:1.05;text-align:center}
+.qrnote{display:flex;gap:12px;align-items:flex-start}
+.qrnote .ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--sun);display:grid;place-items:center}
+
+/* station */
+.greet{display:flex;gap:12px;align-items:flex-end}
+.greet .big{width:44%;flex:none}
+.greet .big svg{width:100%;height:auto;display:block}
+.bubble{position:relative;background:var(--card);border-radius:20px;padding:14px 16px;box-shadow:4px 6px 0 var(--shadow);font-family:var(--display);font-size:19px;line-height:1.35;margin-bottom:30%}
+.bubble::after{content:"";position:absolute;left:-10px;bottom:16px;border:10px solid transparent;border-right-color:var(--card);border-left:0}
+details.fact{background:var(--sun-bg);border-radius:18px;padding:12px 16px}
+details.fact summary{font-family:var(--display);font-size:17px;cursor:pointer}
+details.fact p{margin-top:8px;font-size:16px}
+details.fact .note{margin-top:6px;font-size:12.5px;color:var(--ink-faint)}
+.safety{display:flex;gap:10px;align-items:center;background:var(--card);border:2px dashed var(--line);border-radius:16px;padding:10px 12px;font-size:14.5px;color:var(--ink-soft)}
+.ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:end}
+.rung{border-radius:12px 12px 6px 6px;font-family:var(--display);font-size:14px;text-align:center;padding:6px 2px;color:var(--ink);background:var(--line);opacity:.6}
+.rung:nth-child(1){height:34px}.rung:nth-child(2){height:46px}.rung:nth-child(3){height:58px}.rung:nth-child(4){height:70px}
+.rung.on{opacity:1;box-shadow:3px 4px 0 var(--shadow)}
+.rung.now{outline:3px solid var(--ink);outline-offset:1px}
+.r1{background:var(--peach-bg)}.r2{background:var(--sun-bg)}.r3{background:var(--sky-bg)}.r4{background:var(--lilac-bg)}
+.levelsw{display:flex;gap:6px;background:var(--card);border-radius:999px;padding:4px;box-shadow:3px 4px 0 var(--shadow)}
+.levelsw button{border-radius:999px;padding:6px 12px;font-family:var(--display);font-size:14px;background:none;color:var(--ink-soft)}
+.levelsw button[aria-pressed="true"]{background:var(--ink);color:#FFF6E9}
+.qcard{display:flex;flex-direction:column;gap:12px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.qtext{font-family:var(--display);font-size:24px;line-height:1.35}
+.tip{font-size:14.5px;color:var(--ink-soft);background:var(--mint-bg);border-radius:12px;padding:8px 12px}
+.follow{display:flex;gap:10px;align-items:flex-start;background:var(--sky-bg);border-radius:18px;padding:12px}
+.follow .av{width:46px;flex:none}
+.follow .av svg{width:100%;height:auto;display:block}
+.follow b{font-family:var(--display);font-weight:400;font-size:13px;color:#3E4A66;display:block}
+.follow p{font-family:var(--display);font-size:19px;line-height:1.35}
+.photo{display:flex;flex-direction:column;gap:10px}
+.polaroid{position:relative;background:var(--card);padding:8px;border-radius:14px;box-shadow:4px 6px 0 var(--shadow);transform:rotate(-1.5deg);align-self:center;width:78%;max-width:100%}
+.polaroid img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px}
+.polaroid .sticker{position:absolute;right:-10px;bottom:-12px;width:30%}
+.polaroid .sticker svg{width:100%;height:auto;display:block}
+.spot .pic{position:absolute;left:50%;bottom:-6px;width:40px;height:40px;border-radius:50%;border:3px solid #FFFDF8;object-fit:cover;box-shadow:2px 3px 0 var(--shadow)}
+label.btn{cursor:pointer}
+.ladder5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;align-items:end}
+.ladder5 .rg{border-radius:12px 12px 6px 6px;font-family:var(--display);font-size:12.5px;line-height:1.15;text-align:center;padding:6px 2px;color:var(--ink);background:var(--line);opacity:.55;display:flex;flex-direction:column;justify-content:flex-start;gap:2px;word-break:keep-all}
+.ladder5 .rg small{font-family:var(--body);font-size:11px;color:var(--ink-soft)}
+.ladder5 .rg.on{opacity:1;box-shadow:3px 4px 0 var(--shadow)}
+.ladder5 .rg0{height:44px}.ladder5 .rg1{height:56px}.ladder5 .rg2{height:68px}.ladder5 .rg3{height:80px}.ladder5 .rg4{height:92px}
+.ladder5 .rg0.on{background:var(--peach-bg)}.ladder5 .rg1.on{background:var(--sun-bg)}.ladder5 .rg2.on{background:var(--sky-bg)}.ladder5 .rg3.on{background:var(--lilac-bg)}.ladder5 .rg4.on{background:var(--mint-bg)}
+.pick{display:flex;flex-direction:column;gap:12px}
+.who{display:flex;gap:6px;flex-wrap:wrap}
+.who button{border-radius:999px;padding:8px 16px;font-family:var(--display);font-size:16px;background:var(--card);color:var(--ink-soft);border:2px solid var(--line)}
+.who button[aria-pressed="true"]{background:var(--ink);color:#FFF6E9;border-color:var(--ink)}
+.deck{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.ncard{aspect-ratio:3/4;border-radius:14px;background:var(--coral-deep);color:#FFFDF8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:3px 4px 0 var(--shadow);padding:4px;position:relative;overflow:hidden;
+  background-image:radial-gradient(rgba(255,253,248,.18) 1.5px,transparent 2px);background-size:9px 9px}
+.ncard .big{font-family:var(--display);font-size:32px;line-height:1}
+.ncard .q{font-family:var(--display);font-size:14px;opacity:.85}
+.ncard.used{background:var(--card);background-image:none;color:var(--ink);border:2px solid var(--line)}
+.ncard.used .nn{font-family:var(--display);font-size:16px;line-height:1;color:var(--coral-deep)}
+.ncard.used{gap:1px;padding:2px}
+.ncard.used .nt{font-family:var(--display);font-size:12px;line-height:1.1;text-align:center;word-break:keep-all}
+.ncard.used .na{font-size:11px;line-height:1.1;color:var(--ink-faint);white-space:nowrap}
+.ncard.open{outline:3px solid var(--ink);outline-offset:2px;transform:translateY(-4px)}
+.ncard:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--shadow)}
+.prog{font-size:15px;color:var(--ink-soft);text-align:center}
+.prog b{font-family:var(--display);font-weight:400;font-size:18px;color:var(--coral-deep)}
+@media (prefers-reduced-motion: reduce){.ncard.open{transform:none}}
+.swap{background:none;border:2px dashed var(--line);border-radius:999px;padding:4px 12px;font-family:var(--display);font-size:14px;color:var(--ink-soft);margin-left:auto}
+.bonus{background:var(--peach-bg);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.bonus b{font-family:var(--display);font-weight:400;font-size:18px}
+.linkbtn{background:none;color:var(--ink-faint);text-decoration:underline;font-size:14px;padding:6px}
+.qhead{flex-wrap:wrap}
+.mine{font-size:15px;color:var(--ink-soft);border-left:4px solid var(--sun);padding-left:10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:#FFF6E9;font-family:var(--display);font-size:17px;padding:12px 18px;border-radius:999px;box-shadow:4px 6px 0 var(--shadow);z-index:20;max-width:calc(100% - 32px);text-align:center}
+
+/* stamp overlay */
+.overlay{position:fixed;inset:0;background:rgba(22,33,62,.45);display:grid;place-items:center;z-index:30;padding:24px}
+.stampbox{background:var(--card);border-radius:28px;padding:28px 22px;max-width:360px;width:100%;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center;box-shadow:6px 8px 0 var(--shadow)}
+.seal{width:150px;height:150px;border-radius:50%;border:6px solid var(--coral);color:var(--coral-deep);display:grid;place-items:center;font-family:var(--display);font-size:22px;text-align:center;line-height:1.15;transform:rotate(-12deg);animation:press .5s cubic-bezier(.2,1.6,.4,1) both;background:var(--sky-bg)}
+@keyframes press{from{transform:scale(1.8) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(-12deg);opacity:1}}
+@media (prefers-reduced-motion: reduce){.seal{animation:none}}
+
+/* card */
+.cardimg{width:100%;height:auto;border-radius:18px;box-shadow:5px 7px 0 var(--shadow);display:block}
+.later{background:var(--lilac-bg);border-radius:18px;padding:14px 16px}
+.later b{font-family:var(--display);font-weight:400;font-size:17px;display:block;margin-bottom:4px}
+.foot{text-align:center;font-size:12.5px;color:var(--ink-faint)}
+.confirm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+
+/* v6: modes, photos, book */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;color:var(--ink);min-height:74px}
+.mode b{font-family:var(--display);font-weight:400;font-size:20px}
+.mode small{color:var(--ink-faint);font-size:13.5px;line-height:1.35}
+.mode[aria-pressed="true"]{border-color:var(--coral-deep);background:var(--sky-bg)}
+.ph4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ph4 figure{margin:0;background:var(--card);border-radius:14px;padding:6px;box-shadow:3px 4px 0 var(--shadow);display:flex;flex-direction:column;gap:6px;min-width:0}
+.ph4 img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;display:block}
+.ph4 input[type=text]{font-size:14px;padding:7px 9px;border-radius:10px}
+.ph4 .rm{font-size:13px;color:var(--ink-faint);background:none;text-decoration:underline;align-self:flex-end;padding:2px 4px}
+.ph4 figcaption{font-size:14px;color:var(--ink-soft);padding:0 4px 4px}
+.think{display:flex;flex-direction:column;gap:12px}
+.bookcover{background:#14254A;color:#FFF6E9;border-radius:22px;padding:24px 20px;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;box-shadow:5px 7px 0 var(--shadow)}
+.bookcover .eyebrow{color:#FFD66B}
+.bookcover h1{font-size:30px}
+.bookcover .ch{width:32%}
+.bookcover .ch svg{width:100%;height:auto;display:block}
+.chapter{background:var(--card);border-radius:22px;box-shadow:5px 7px 0 var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px;border-left:10px solid var(--coral)}
+.chno{font-family:var(--display);font-size:16px;color:var(--coral-deep)}
+.story{font-size:16.5px;line-height:1.75;background:var(--sky-bg);border-radius:14px;padding:12px 14px}
+.ainote{font-size:12.5px;color:var(--ink-faint);margin-top:-6px}
+.kv{font-size:15px;line-height:1.6;display:flex;flex-direction:column;gap:6px}
+.kv b{font-family:var(--display);font-weight:400;color:var(--coral-deep)}
+.toc{margin:0;padding-left:0;list-style:none;display:grid;gap:4px;font-family:var(--display);font-size:17px}
+
+/* v7: book viewer */
+.bookview{perspective:1200px}
+.sheet{position:relative;background:#FFFDF8;border-radius:6px 18px 18px 6px;box-shadow:5px 7px 0 var(--shadow),inset 14px 0 18px -14px rgba(22,33,62,.35);min-height:560px;display:flex;flex-direction:column;border-left:8px solid #2E5F9E;overflow:hidden;animation:flip .35s ease both}
+@keyframes flip{from{transform:rotateY(-8deg);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.sheet{animation:none}}
+.pg{flex:1;display:flex;flex-direction:column;gap:12px;padding:22px 20px 12px}
+.pg .run{font-family:var(--display);font-size:14px;color:var(--coral-deep);letter-spacing:.04em}
+.pg .h{font-size:26px}
+.pg.cover{background:#14254A;color:#FFF6E9;align-items:center;justify-content:center;text-align:center;gap:14px;padding:34px 22px}
+.pg.cover .eyebrow{color:#FFD66B}
+.pg.cover .ch,.pg.end .ch{width:38%;align-self:center}
+.pg.cover .ch svg,.pg.end .ch svg{width:100%;height:auto;display:block}
+.pg.cover .ttl{font-size:32px;line-height:1.25}
+.pg.cover .by{font-size:14.5px;color:#C9D6EE;line-height:1.6}
+.pg .toc li{display:flex;gap:10px;align-items:baseline;border-bottom:1px dashed var(--line);padding:6px 0}
+.pg .toc li span{color:var(--coral-deep);min-width:3.2em}
+.pg .toc li i{margin-left:auto;font-style:normal;font-family:var(--body);font-size:13px;color:var(--ink-faint)}
+.chhead{display:flex;align-items:center;gap:10px;margin-top:-4px}
+.chhead .mini{width:56px;flex:none}
+.chhead .mini svg{width:100%;height:auto;display:block}
+.known{font-size:14.5px;line-height:1.6;background:var(--sun-bg);border-radius:12px;padding:10px 12px}
+.known b{font-family:var(--display);font-weight:400}
+.pg.end{align-items:stretch;justify-content:center}
+.endtxt{font-family:var(--display);font-size:19px;line-height:1.55;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center;font-size:13px;color:var(--ink-soft)}
+.stats b{display:block;font-family:var(--display);font-weight:400;font-size:26px;color:var(--coral-deep)}
+.pno{text-align:center;font-size:13px;color:var(--ink-faint);padding:6px 0 12px}
+.pg.cover + .pno{background:#14254A;color:#A9C4EA;margin:0}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* v8: book prose */
+.pg.chap{gap:14px}
+.pg .subt{font-family:'Gowun Batang',serif;font-size:15px;color:var(--ink-faint);margin-top:-10px}
+.hero{margin:0;background:#fff;padding:8px 8px 10px;border-radius:6px;box-shadow:3px 5px 0 var(--shadow);transform:rotate(-1deg)}
+.hero img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;display:block}
+.hero figcaption,.thumbs figcaption{font-family:'Gowun Batang',serif;font-size:14px;color:var(--ink-soft);text-align:center;padding-top:6px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.thumbs figure{margin:0;background:#fff;padding:5px 5px 6px;border-radius:5px;box-shadow:2px 3px 0 var(--shadow)}
+.thumbs img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:3px;display:block}
+.thumbs figcaption{font-size:12px;padding-top:4px}
+.pull{margin:6px 0;padding:6px 4px 6px 16px;border-left:4px solid #FFD66B;font-family:'Gowun Batang',serif;font-weight:700;font-size:21px;line-height:1.55;color:var(--ink)}
+.pull cite{display:block;font-style:normal;font-weight:400;font-size:14px;color:var(--ink-faint);margin-top:4px}
+.prose p{font-family:'Gowun Batang',serif;font-size:16.5px;line-height:1.95;margin:0 0 12px;text-indent:1em;word-break:keep-all}
+.say{display:flex;gap:10px;align-items:center;background:var(--sky-bg);border-radius:16px;padding:10px 12px}
+.say .mini{width:44px;flex:none}.say .mini svg{width:100%;height:auto;display:block}
+.say p{font-family:'Gowun Batang',serif;font-size:15.5px;line-height:1.6}
+.say b{display:block;font-family:var(--display);font-weight:400;font-size:13px;color:var(--coral-deep)}
+details.raw{font-size:14px}details.raw summary{cursor:pointer;color:var(--ink-faint)}
+.intro{font-family:'Gowun Batang',serif;font-size:15.5px;line-height:1.85;margin-top:auto}
+.whys{background:var(--sun-bg);border-radius:14px;padding:12px 14px;font-family:'Gowun Batang',serif;font-size:15.5px;line-height:1.7}
+.whys b{font-family:var(--display);font-weight:400;display:block;margin-bottom:4px}
+.whys span{color:var(--ink-faint);font-size:13px}
+
+.mic{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;margin-top:-2px;background:var(--sky-bg);color:var(--coral-deep);font-family:var(--display);font-size:15px;padding:8px 14px;border-radius:999px;border:2px solid #B9D7F3;min-height:40px}
+.voice.on{background:#E5533A;color:#FFFDF8;border-color:#E5533A;animation:pulse 1.2s ease-in-out infinite}
+.voice svg{flex:none}
+.voice{white-space:nowrap;padding-left:12px;padding-right:12px;gap:6px}
+.qcard .row .btn{white-space:nowrap;font-size:18px;padding-left:10px;padding-right:10px}
+.mic.on{background:#E5533A;color:#FFFDF8;border-color:#E5533A;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(229,83,58,.18)}}
+@media (prefers-reduced-motion: reduce){.mic.on{animation:none}}
+.kbhint{display:flex;gap:8px;align-items:flex-start;background:#FFF1C9;border:2px dashed #E0B84A;border-radius:14px;padding:10px 12px;font-size:14.5px;line-height:1.55;color:var(--ink)}
+.kbhint svg{flex:none;margin-top:2px;color:var(--coral-deep)}
+.btn.ready{animation:ready 1.4s ease-in-out infinite}
+@keyframes ready{50%{box-shadow:0 0 0 7px rgba(46,95,158,.25)}}
+@media (prefers-reduced-motion: reduce){.btn.ready{animation:none}}
+.names{display:flex;flex-direction:column;gap:10px;background:var(--sky-bg);border-radius:16px;padding:14px}
+</style>
+
+<main class="app" id="app" aria-live="polite"></main>
+<div id="toastHost"></div>
+
+<script>
+(function(){
+'use strict';
+var SK='whygj-v1';
+var CHAR={
+ mound:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" width="360" height="220" role="img" aria-label="대릉원 고분 캐릭터"><path d="M25 213 C43 101 119 43 187 43 C255 43 331 101 349 213 Z" fill="#16213E" opacity="0.14"/><path d="M18 204 C36 92 112 34 180 34 C248 34 324 92 342 204 Z" fill="#8FD3A8" stroke="#FFFDF8" stroke-width="5"/><path d="M76 118 C104 74 146 56 180 54" fill="none" stroke="#B9E6C8" stroke-width="10" stroke-linecap="round"/><path d="M58 202 l9 -20 l9 20 M282 202 l9 -20 l9 20" fill="none" stroke="#5FB884" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="150" cy="128" r="9" fill="#16213E"/><circle cx="210" cy="128" r="9" fill="#16213E"/><circle cx="153" cy="125" r="3" fill="#FFFDF8"/><circle cx="213" cy="125" r="3" fill="#FFFDF8"/><ellipse cx="128" cy="150" rx="15" ry="9" fill="#FF9F9F" opacity="0.75"/><ellipse cx="232" cy="150" rx="15" ry="9" fill="#FF9F9F" opacity="0.75"/><path d="M164 150 Q180 166 196 150" fill="none" stroke="#16213E" stroke-width="5" stroke-linecap="round"/></svg>',
+ cheom:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 380" width="320" height="380" role="img" aria-label="첨성대 캐릭터 첨이"><ellipse cx="160" cy="364" rx="120" ry="12" fill="#16213E" opacity="0.12"/><path d="M65 345 C59 261 107 185 123 105 L211 105 C227 185 275 261 269 345 Z" fill="#16213E" opacity="0.12"/><path d="M58 336 C52 252 100 176 116 96 L204 96 C220 176 268 252 262 336 Z" fill="#8EC1EE" stroke="#FFFDF8" stroke-width="5"/><path d="M114 120 L206 120 M80 244 L240 244 M70 266 L250 266 M64 288 L256 288 M60 310 L260 310" stroke="#6A9FD8" stroke-width="3"/><rect x="36" y="330" width="248" height="22" rx="6" fill="#3F78BD" stroke="#FFFDF8" stroke-width="4"/><rect x="104" y="72" width="112" height="28" rx="4" fill="#3F78BD" stroke="#FFFDF8" stroke-width="4"/><line x1="160" y1="74" x2="160" y2="98" stroke="#2E5F9E" stroke-width="3"/><circle cx="140" cy="148" r="9" fill="#16213E"/><circle cx="180" cy="148" r="9" fill="#16213E"/><circle cx="143" cy="145" r="3" fill="#FFFDF8"/><circle cx="183" cy="145" r="3" fill="#FFFDF8"/><ellipse cx="122" cy="168" rx="11" ry="6" fill="#FF9F9F"/><ellipse cx="198" cy="168" rx="11" ry="6" fill="#FF9F9F"/><path d="M148 166 Q160 180 172 166" fill="none" stroke="#16213E" stroke-width="5" stroke-linecap="round"/><rect x="142" y="194" width="36" height="36" rx="4" fill="#1B2C55" stroke="#FFFDF8" stroke-width="3"/><text x="160" y="224" text-anchor="middle" font-family="Jua, sans-serif" font-size="28" fill="#FFD66B">?</text><path d="M86 238 C64 256 70 288 92 298" fill="none" stroke="#5B93D3" stroke-width="18" stroke-linecap="round"/><circle cx="92" cy="298" r="11" fill="#5B93D3" stroke="#FFFDF8" stroke-width="3"/><path d="M234 236 C262 218 270 190 266 168" fill="none" stroke="#5B93D3" stroke-width="18" stroke-linecap="round"/><circle cx="266" cy="166" r="11" fill="#5B93D3" stroke="#FFFDF8" stroke-width="3"/></svg>',
+ tree:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" width="300" height="360" role="img" aria-label="계림 숲 나무 캐릭터"><ellipse cx="150" cy="346" rx="112" ry="12" fill="#16213E" opacity="0.08"/><path d="M135 353 L145 219 L169 219 L179 353 Z" fill="#16213E" opacity="0.14"/><path d="M128 344 L138 210 L162 210 L172 344 Z" fill="#A8754F" stroke="#FFFDF8" stroke-width="4"/><path d="M160 262 Q196 248 232 250" fill="none" stroke="#A8754F" stroke-width="9" stroke-linecap="round"/><line x1="232" y1="250" x2="232" y2="266" stroke="#E0A030" stroke-width="3"/><rect x="221" y="272" width="34" height="26" rx="4" fill="#16213E" opacity="0.14"/><rect x="216" y="266" width="34" height="26" rx="4" fill="#FFD66B" stroke="#FFFDF8" stroke-width="3"/><line x1="216" y1="274" x2="250" y2="274" stroke="#E0A030" stroke-width="3"/><circle cx="99" cy="187" r="62" fill="#16213E" opacity="0.14"/><circle cx="215" cy="187" r="62" fill="#16213E" opacity="0.14"/><circle cx="157" cy="141" r="96" fill="#16213E" opacity="0.14"/><circle cx="92" cy="178" r="62" fill="#7ACB96" stroke="#FFFDF8" stroke-width="5"/><circle cx="208" cy="178" r="62" fill="#7ACB96" stroke="#FFFDF8" stroke-width="5"/><circle cx="150" cy="132" r="96" fill="#6CC08B" stroke="#FFFDF8" stroke-width="5"/><path d="M96 108 C112 70 150 52 176 54" fill="none" stroke="#9BDDB2" stroke-width="10" stroke-linecap="round"/><circle cx="130" cy="140" r="7" fill="#16213E"/><circle cx="170" cy="140" r="7" fill="#16213E"/><circle cx="132" cy="137" r="2.5" fill="#FFFDF8"/><circle cx="172" cy="137" r="2.5" fill="#FFFDF8"/><ellipse cx="116" cy="158" rx="11" ry="6" fill="#FF9F9F" opacity="0.8"/><ellipse cx="184" cy="158" rx="11" ry="6" fill="#FF9F9F" opacity="0.8"/><path d="M140 158 Q150 168 160 158" fill="none" stroke="#16213E" stroke-width="4" stroke-linecap="round"/></svg>',
+ hanok:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" width="360" height="300" role="img" aria-label="숭혜전 한옥 캐릭터"><rect x="43" y="281" width="288" height="16" rx="6" fill="#16213E" opacity="0.14"/><rect x="36" y="272" width="288" height="18" rx="6" fill="#CDBBA5" stroke="#FFFDF8" stroke-width="3"/><rect x="69" y="149" width="236" height="126" fill="#16213E" opacity="0.14"/><rect x="62" y="140" width="236" height="134" fill="#FBE3C4" stroke="#FFFDF8" stroke-width="4"/><rect x="62" y="140" width="20" height="134" fill="#D9534F"/><rect x="278" y="140" width="20" height="134" fill="#D9534F"/><rect x="150" y="204" width="60" height="70" rx="4" fill="#E2725B"/><line x1="180" y1="204" x2="180" y2="274" stroke="#C2412A" stroke-width="3"/><rect x="52" y="128" width="256" height="18" rx="4" fill="#3FA58E"/><g fill="#FFD66B"><circle cx="76" cy="137" r="4"/><circle cx="108" cy="137" r="4"/><circle cx="140" cy="137" r="4"/><circle cx="172" cy="137" r="4"/><circle cx="204" cy="137" r="4"/><circle cx="236" cy="137" r="4"/><circle cx="268" cy="137" r="4"/><circle cx="296" cy="137" r="4"/></g><path d="M15 139 Q67 113 187 63 Q307 113 359 139 Q331 129 187 125 Q43 129 15 139 Z" fill="#16213E" opacity="0.14"/><path d="M8 130 Q60 104 180 54 Q300 104 352 130 Q324 120 180 116 Q36 120 8 130 Z" fill="#5B6C8F" stroke="#FFFDF8" stroke-width="5"/><path d="M118 74 Q180 44 242 74" fill="none" stroke="#3E4A66" stroke-width="9" stroke-linecap="round"/><circle cx="150" cy="174" r="7" fill="#16213E"/><circle cx="210" cy="174" r="7" fill="#16213E"/><circle cx="152" cy="171" r="2.5" fill="#FFFDF8"/><circle cx="212" cy="171" r="2.5" fill="#FFFDF8"/><ellipse cx="134" cy="188" rx="10" ry="5" fill="#FF9F9F" opacity="0.8"/><ellipse cx="226" cy="188" rx="10" ry="5" fill="#FF9F9F" opacity="0.8"/><path d="M168 188 Q180 198 192 188" fill="none" stroke="#16213E" stroke-width="4" stroke-linecap="round"/></svg>',
+ kid:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 260" width="160" height="260" role="img" aria-label="손을 든 아이 캐릭터"><rect x="58" y="196" width="18" height="54" rx="8" fill="#5B6C8F"/><rect x="84" y="196" width="18" height="54" rx="8" fill="#5B6C8F"/><rect x="51" y="121" width="72" height="96" rx="34" fill="#16213E" opacity="0.14"/><rect x="44" y="112" width="72" height="96" rx="34" fill="#FF8C6B" stroke="#FFFDF8" stroke-width="4"/><path d="M106 134 L134 70" stroke="#FF8C6B" stroke-width="18" stroke-linecap="round"/><circle cx="136" cy="62" r="12" fill="#FFD9B8" stroke="#FFFDF8" stroke-width="3"/><path d="M54 136 L38 184" stroke="#FF8C6B" stroke-width="18" stroke-linecap="round"/><circle cx="36" cy="190" r="11" fill="#FFD9B8"/><circle cx="87" cy="79" r="44" fill="#16213E" opacity="0.14"/><circle cx="80" cy="70" r="44" fill="#FFD9B8" stroke="#FFFDF8" stroke-width="4"/><path d="M38 64 C40 30 70 22 84 24 C108 24 124 40 122 64 C110 50 92 44 80 46 C64 46 50 52 38 64 Z" fill="#16213E"/><circle cx="66" cy="76" r="5" fill="#16213E"/><circle cx="94" cy="76" r="5" fill="#16213E"/><ellipse cx="58" cy="90" rx="7" ry="4" fill="#FF9F9F"/><ellipse cx="102" cy="90" rx="7" ry="4" fill="#FF9F9F"/><path d="M72 92 Q80 100 88 92" fill="none" stroke="#16213E" stroke-width="4" stroke-linecap="round"/></svg>'
+};
+
+var AUD=[
+ {k:'kid',n:'아동',p:'아이',d:'유아·초등',bg:'var(--peach-bg)'},
+ {k:'teen',n:'청소년',p:'청소년',d:'중·고등학생',bg:'var(--sky-bg)'},
+ {k:'adult',n:'성인',p:'어른',d:'부모·어른',bg:'var(--sun-bg)'},
+ {k:'elder',n:'조부모',p:'할머니·할아버지',d:'할머니·할아버지',bg:'var(--lilac-bg)'}
+];
+var AI={kid:0,teen:1,adult:2,elder:3};
+function audOf(k){return AUD[AI[k]]}
+var MODES=[
+ {k:'solo',n:'혼자',d:'나를 돌아보는 질문',ph:'예: 지우',book:'나의 경주 여행기'},
+ {k:'family',n:'가족',d:'아이·부모·조부모 함께',ph:'예: 행복한 지우네',book:'우리 가족 경주 여행기'},
+ {k:'friends',n:'친구·연인',d:'서로에게 묻는 질문',ph:'예: 지우와 민서',book:'우리 둘의 경주 여행기'},
+ {k:'group',n:'단체·학급',d:'모둠별 질문 카드',ph:'예: 경주초 5학년 2반',book:'우리 반 경주 질문 문집'}];
+function modeOf(k){for(var i=0;i<MODES.length;i++)if(MODES[i].k===k)return MODES[i];return MODES[1]}
+function we(){return S.mode==='solo'?'나':'우리'}
+function weGa(){return S.mode==='solo'?'내가':'우리가'}
+var TYPES=[
+ {t:'관찰 탐정',s:'눈으로 찾기',tip:'부모님 팁: 먼저 찾을 때까지 기다려 주세요. “어디서 찾았어?” 한마디면 충분해요.'},
+ {t:'왜 박사',s:'이유 추리하기',tip:'부모님 팁: 정답을 말하기 전에 “너는 어떻게 생각해?”라고 되물어 주세요.'},
+ {t:'상상 여행',s:'역할 바꿔 보기',tip:'부모님 팁: 엉뚱한 상상일수록 “와, 그다음엔?” 하고 이어 주세요.'},
+ {t:'기억 보물',s:'가족 이야기 꺼내기',tip:'이번엔 어른이 이야기꾼이에요. 짧은 추억 하나면 충분해요.'},
+ {t:'몸으로 미션',s:'함께 해 보기',tip:'사적지에서는 뛰거나 올라가지 않아요. 천천히, 조용히 해요.'}
+];
+var FOLLOW=[
+ ['와, 잘 찾았네요! 또 무엇이 눈에 띄었나요?','그걸 찾을 때 어디를 제일 먼저 봤나요?','가족 중에 다르게 본 사람이 있나요?'],
+ ['그렇게 생각한 까닭은 무엇인가요?','만약 그 이유가 아니라면, 또 어떤 이유가 있을까요?','다른 가족의 생각은 같나요, 다른가요?'],
+ ['멋져요! 그때 사람들은 어떤 표정이었을까요?','그 상상을 그림으로 그린다면 무엇을 가장 크게 그릴까요?','반대로 상상하면 어떻게 될까요?'],
+ ['그 이야기에서 가장 신기했던 건 무엇인가요?','그때와 지금, 무엇이 가장 많이 바뀌었을까요?','그 이야기를 다음에 누구에게 들려주고 싶나요?'],
+ ['해 보니 어떤 기분이었나요?','옛 신라 사람들도 이렇게 했을까요?','이번엔 다른 가족이 따라 해 볼까요?']
+];
+/* q[유형][대상: 아동, 청소년, 성인, 조부모] — 시제품 예시, 검수 전 */
+var ST=[
+ {key:'daereungwon',name:'대릉원',ch:'mound',pos:{l:'4%',t:'5%'},
+  greet:'안녕하세요? 저는 대릉원 무덤이에요. 번호 카드를 하나 뽑아 볼래요?',
+  fact:'대릉원에는 신라 왕과 귀족의 큰 무덤이 모여 있어요. 천마총에서는 하늘을 나는 말 그림(천마도)이 나왔어요.',
+  q:[
+   ['둥근 무덤이 몇 개 보이나요? 가장 큰 무덤을 찾아봐요!','무덤들의 크기와 모양을 비교해 보세요. 어떤 차이가 보이나요?','무덤의 둘레와 높이를 보며, 만드는 데 몇 명이 얼마나 일했을지 가늠해 보세요.','예전에 보시던 대릉원 풍경과 오늘 달라진 점을 찾아보세요.'],
+   ['왜 무덤을 이렇게 크게 만들었을까요?','신라 왕들은 왜 산이 아니라 평지에 큰 무덤을 만들었을까요?','왕의 무덤이 도시 한가운데 있다는 것은 신라 사람들에게 어떤 의미였을까요?','옛 어른들은 왜 조상의 무덤을 그토록 정성껏 돌보셨을까요?'],
+   ['내가 신라 왕이라면 무덤에 무엇을 함께 넣고 싶어요?','천 년 뒤 사람들이 우리 시대를 발굴한다면, 무엇을 보고 우리를 알게 될까요?','무덤 속 왕이 오늘의 경주를 본다면 무엇에 가장 놀랄까요?','손주에게 꼭 물려주고 싶은 물건 하나를 고른다면 무엇인가요?'],
+   ['엄마·아빠는 어릴 때 어디로 소풍을 갔는지 물어봐요!','부모님이 처음 경주에 왔을 때 무엇을 했는지 여쭤보세요.','어릴 때 가족과 함께 간 여행 중 가장 기억에 남는 곳을 들려주세요.','처음 경주에 오셨을 때 대릉원은 어떤 모습이었나요?'],
+   ['무덤처럼 팔로 큰 동그라미를 만들고 “안녕하세요, 왕님!” 하고 인사해 봐요.','길을 따라 걸으며 가장 큰 무덤의 둘레를 걸음 수로 어림해 보세요. (무덤에는 올라가지 않아요)','1분 동안 아무 말 없이 무덤 사이 길을 걸어 보세요. 그다음 느낌을 나눠요.','손주의 손을 잡고 가장 마음에 드는 무덤 앞에서 함께 사진 포즈를 정해 보세요.']
+  ]},
+ {key:'cheomseongdae',name:'첨성대',ch:'cheom',pos:{l:'54%',t:'20%'},
+  greet:'안녕하세요? 저는 첨이예요. 내 창문에 질문이 살아요. 카드를 뽑아 볼래요?',
+  fact:'첨성대는 신라 선덕여왕 때 세워진 것으로 알려진 천문대예요. 돌을 27단으로 쌓았고, 쓰인 돌이 약 362개라 1년의 날수와 관련 있다는 이야기도 전해져요.',
+  q:[
+   ['제 몸에 창문이 하나 있어요! 아래에서 몇 번째 줄쯤인지 세어 볼래요?','돌을 쌓은 줄 수를 세어 보고, 창문이 전체의 어디쯤인지 찾아보세요.','아래는 넓고 위로 갈수록 좁아지는 곡선을 보세요. 왜 이 모양이 튼튼할까요?','첨성대 주변 풍경 가운데 예전과 달라진 것을 찾아보세요.'],
+   ['왜 저를 병처럼 둥글게 만들었을까요?','옛사람들은 왜 하늘을 관찰했을까요? 농사와 나라에 어떤 도움이 됐을까요?','첨성대가 무엇에 쓰였는지에 대해서는 여러 해석이 있어요. 어떤 쓰임이었을지 가족과 추리해 보세요.','옛 어른들은 날씨와 계절을 무엇을 보고 알아채셨나요?'],
+   ['내가 별을 보는 사람이라면, 오늘 밤 무엇을 적을까요?','내가 신라의 천문관이라면, 왕에게 어떤 별 소식을 전할까요?','천 년도 더 전에 이곳에서 밤하늘을 올려다본 사람은 어떤 마음이었을까요?','별에 소원을 하나 빈다면, 손주를 위해 무엇을 비시겠어요?'],
+   ['할머니나 엄마에게 가장 기억나는 별이나 달 이야기를 여쭤봐요!','부모님이 내 나이였을 때 밤에 무엇을 하며 노셨는지 여쭤보세요.','가족과 함께 밤하늘을 본 기억이 있나요? 그때 이야기를 들려주세요.','어릴 적 밤하늘은 지금과 어떻게 달랐나요? 은하수도 보였나요?'],
+   ['첨성대처럼 팔을 둥글게 모으고 10초 동안 꼼짝 않고 서 있어 봐요!','첨성대를 올려다보는 각도로 가족 사진 구도를 찾아보세요.','가족이 키 순서대로 서서 ‘사람 첨성대’를 만들어 보세요.','울타리 밖 길을 따라 천천히 걸으며 손주에게 아는 별자리 하나를 알려 주세요.']
+  ]},
+ {key:'gyerim',name:'계림',ch:'tree',pos:{l:'4%',t:'52%'},
+  greet:'안녕하세요? 저는 계림 숲 나무예요. 금빛 상자처럼 카드를 열어 볼래요?',
+  fact:'계림은 신라 김씨의 시조 김알지가 태어난 곳으로 전해지는 숲이에요. 흰 닭이 울던 나뭇가지에 금빛 상자가 걸려 있었고, 그 안에서 아기가 나왔다는 이야기가 있어요.',
+  q:[
+   ['숲에서 가장 오래돼 보이는 나무를 찾아봐요. 어떻게 알 수 있을까요?','1분 동안 눈을 감고 숲의 소리를 들어 보세요. 몇 가지 소리가 들렸나요?','나무껍질, 뿌리, 가지 모양을 보며 나무의 나이를 짐작해 보세요.','이 숲에서 아시는 나무 이름이 있나요? 손주에게 알려 주세요.'],
+   ['왜 아기가 숲속 금빛 상자에서 나왔다고 했을까요?','신라 김씨의 시작 이야기는 왜 하필 숲에서 시작될까요?','옛이야기에는 왜 닭, 상자, 빛 같은 신비한 표시가 자주 나올까요?','옛날 마을에는 왜 당산나무처럼 소중히 여기는 나무가 있었을까요?'],
+   ['금빛 상자를 열었는데 내가 들어 있다면, 나는 어떤 사람이 될까요?','우리 가족의 시작 이야기를 전설처럼 만든다면, 어떤 장면일까요?','이 숲의 나무가 천 년 동안 지켜본 사람 한 명을 떠올려 이야기를 지어 보세요.','손주가 태어난 날을 전설처럼 들려준다면 어떻게 시작할까요?'],
+   ['내 이름은 누가 지어 주셨는지, 어떤 뜻인지 여쭤봐요!','우리 집안에 전해 오는 이야기나 이름의 뜻이 있는지 여쭤보세요.','아이가 태어났을 때 가장 먼저 떠오른 생각은 무엇이었나요?','어릴 때 어른들께 들은 옛이야기 중 기억나는 것이 있나요?'],
+   ['두 손으로 금빛 상자를 만들어 “짠!” 하고 여는 흉내를 내 봐요!','숲길에서 가장 멋진 나뭇잎이나 그림자를 찾아 사진을 찍어 보세요. (나뭇가지는 꺾지 않아요)','아이와 함께 흰 닭 울음소리를 작게 흉내 내며 설화 장면을 재현해 보세요.','가장 큰 나무 앞에서 손주와 나란히 서서 키를 재어 보세요.']
+  ]},
+ {key:'sunghyejeon',name:'숭혜전',ch:'hanok',pos:{l:'53%',t:'65%'},
+  greet:'안녕하세요? 저는 숭혜전이에요. 황리단길 바로 옆인데, 저를 아는 사람은 많지 않아요.',
+  fact:'숭혜전은 신라 김씨 왕인 미추왕·문무왕·경순왕을 모신 사당이에요. 지금도 후손들이 제례를 이어 오고 있어요.',
+  q:[
+   ['기둥과 대문에 어떤 색이 칠해져 있나요? 무늬도 찾아봐요!','지붕, 기둥, 무늬를 살펴보고 다른 한옥과 다른 점을 찾아보세요.','단청의 색과 무늬를 살펴보세요. 어떤 색이 가장 많이 쓰였나요?','문과 마당을 보며, 예전 집안 제사 때 모습과 닮은 점을 찾아보세요.'],
+   ['왜 오래전 왕을 아직도 기억하고 제사를 지낼까요?','천 년 넘게 왕을 기억해 온 힘은 무엇일까요?','황리단길은 이렇게 북적이는데, 바로 옆 숭혜전은 왜 조용할까요?','집안의 제사와 명절은 가족에게 어떤 의미가 있었나요?'],
+   ['천 년 뒤 사람들이 나를 기억한다면, 어떤 모습으로 기억해 주면 좋겠어요?','내가 이곳을 지키는 사람이라면, 방문객에게 무엇을 가장 먼저 알려 줄까요?','100년 뒤 우리 가족은 나를 어떤 사람으로 기억할까요?','손주들이 나를 떠올릴 때 어떤 장면을 기억해 주면 좋겠어요?'],
+   ['우리 가족이 명절에 꼭 하는 일이 무엇인지 말해 봐요!','부모님이 가장 소중히 간직한 가족 사진 이야기를 들어 보세요.','우리 가족이 대대로 지켜 온 약속이나 습관이 있나요?','지금은 사라졌지만 꼭 전하고 싶은 우리 집 풍습이 있나요?'],
+   ['지붕 끝처럼 두 팔을 하늘로 쭉 뻗어 봐요!','단청 무늬 하나를 골라 손가락으로 공중에 따라 그려 보세요.','가족이 나란히 서서 숭혜전을 향해 고개 숙여 짧게 인사해 보세요.','손주에게 어른께 인사하는 법을 하나 알려 주세요.']
+  ]}
+];
+var MISSION={
+ daereungwon:'무덤처럼 둥글게! 가족이 팔로 큰 동그라미를 만들어 찍어요.',
+ cheomseongdae:'첨성대처럼 차곡차곡! 키 순서대로 나란히 서서 찍어요.',
+ gyerim:'금빛 상자 발견! 두 손으로 상자 모양을 만들어 찍어요.',
+ sunghyejeon:'기억하는 마음! 가족이 어깨동무하고 찍어요.'
+};
+var SPOKEN='(말로 나눴어요)', NEED=2, NUMS=['1','2','3','4','5'];
+/* 동행 형태별 질문 — 기억 보물(3)·몸으로 미션(4)은 형태별로 바꾸고, 나머지는 가족 표현만 고침 */
+var ALT={
+ solo:{
+  daereungwon:['어린 시절 소풍이나 여행 중 가장 기억에 남는 곳은 어디인가요? 그때 누구와 함께였나요?','1분 동안 아무 말 없이 무덤 사이 길을 천천히 걸어 보세요. 그다음 떠오른 느낌을 한 줄로 적어요.'],
+  cheomseongdae:['가장 기억에 남는 밤하늘이나 달이 있나요? 언제, 어디서였나요?','첨성대를 올려다보는 각도로 나만의 사진 구도를 찾아보세요.'],
+  gyerim:['내 이름은 누가 지어 주었고, 어떤 뜻인가요? 그 이름에 얽힌 이야기를 떠올려 보세요.','1분 동안 눈을 감고 숲의 소리를 들어 보세요. 몇 가지 소리가 들렸나요?'],
+  sunghyejeon:['내가 오래 지켜 온 습관이나 약속이 있나요? 왜 지켜 왔나요?','단청 무늬 하나를 골라 손가락으로 공중에 따라 그려 보세요.']},
+ friends:{
+  daereungwon:['서로 처음 함께 여행 간 곳은 어디였나요? 그때 가장 웃겼던 일을 이야기해 봐요.','둘이 팔로 큰 동그라미를 만들어 무덤 모양을 흉내 내 봐요. (무덤에는 올라가지 않아요)'],
+  cheomseongdae:['서로에게 가장 기억에 남는 밤하늘이나 밤 풍경을 들려주세요.','서로 마주 서서 팔을 둥글게 모아 ‘사람 첨성대’를 만들어 봐요.'],
+  gyerim:['서로의 이름에 담긴 뜻을 알고 있나요? 지금 물어보세요.','두 손으로 금빛 상자를 만들어 서로에게 “짠!” 하고 열어 보여 줘요.'],
+  sunghyejeon:['우리만의 약속이나 기념일이 있나요? 어떻게 시작됐나요?','지붕 끝처럼 두 사람이 팔을 하늘로 쭉 뻗어 나란히 서 봐요.']},
+ group:{
+  daereungwon:['지금까지 간 현장체험학습 중 가장 기억에 남는 곳을 모둠 친구들에게 이야기해 봐요.','모둠이 손을 잡고 큰 원을 만들어 무덤 둘레를 흉내 내 봐요. (무덤에는 올라가지 않아요)'],
+  cheomseongdae:['모둠원 각자 가장 기억에 남는 밤하늘이나 별 이야기를 하나씩 나눠 봐요.','모둠이 키 순서대로 서서 ‘사람 첨성대’를 만들어 봐요.'],
+  gyerim:['내 이름의 뜻을 모둠 친구들에게 소개해 봐요. 이름을 지어 준 사람은 누구인가요?','모둠이 함께 흰 닭 울음소리를 작게 흉내 내며 설화 장면을 만들어 봐요.'],
+  sunghyejeon:['우리 반이나 우리 학교가 오래 지켜 온 전통이 있나요? 왜 생겼을까요?','모둠이 나란히 서서 숭혜전을 향해 짧게 고개 숙여 인사해 봐요.']}
+};
+var FIX={
+ solo:[['어떤 쓰임이었을지 가족과 추리해 보세요.','어떤 쓰임이었을지 추리해 보세요.'],['이 숲에서 아시는 나무 이름이 있나요? 손주에게 알려 주세요.','이 숲에서 아는 나무 이름이 있나요? 몇 가지나 찾을 수 있나요?'],['손주를 위해 무엇을 비시겠어요?','무엇을 빌고 싶나요?'],['손주에게 꼭 물려주고 싶은','다음 세대에 꼭 물려주고 싶은'],['우리 가족의 시작 이야기를','나의 시작 이야기를'],['손주가 태어난 날을','내가 태어난 날을'],['100년 뒤 우리 가족은','100년 뒤 사람들은'],['손주들이 나를','사람들이 나를'],['가족 중에 다르게 본 사람이 있나요?','처음에는 무엇이 먼저 보였나요?'],['다른 가족의 생각은 같나요, 다른가요?','다른 사람이라면 어떻게 생각할까요?'],['이번엔 다른 가족이 따라 해 볼까요?','한 번 더 해 볼까요?']],
+ friends:[['가족과 추리해 보세요.','함께 추리해 보세요.'],['손주에게 알려 주세요.','친구에게 알려 주세요.'],['손주를 위해 무엇을 비시겠어요?','친구를 위해 무엇을 빌고 싶나요?'],['손주에게 꼭 물려주고 싶은','다음 세대에 꼭 물려주고 싶은'],['우리 가족의 시작 이야기를','우리의 첫 만남을'],['손주가 태어난 날을','친구가 태어난 날을'],['100년 뒤 우리 가족은','100년 뒤 친구들은'],['손주들이 나를','친구들이 나를'],['가족 중에 다르게 본 사람이 있나요?','친구는 다르게 봤나요?'],['다른 가족의 생각은 같나요, 다른가요?','친구의 생각은 같나요, 다른가요?'],['이번엔 다른 가족이 따라 해 볼까요?','이번엔 친구가 따라 해 볼까요?']],
+ group:[['가족과 추리해 보세요.','모둠과 함께 추리해 보세요.'],['손주에게 알려 주세요.','모둠 친구들에게 알려 주세요.'],['손주를 위해 무엇을 비시겠어요?','우리 반을 위해 무엇을 빌고 싶나요?'],['손주에게 꼭 물려주고 싶은','후배들에게 꼭 물려주고 싶은'],['우리 가족의 시작 이야기를','우리 반의 시작 이야기를'],['손주가 태어난 날을','우리 반이 처음 모인 날을'],['100년 뒤 우리 가족은','100년 뒤 후배들은'],['손주들이 나를','친구들이 나를'],['가족 중에 다르게 본 사람이 있나요?','모둠에서 다르게 본 친구가 있나요?'],['다른 가족의 생각은 같나요, 다른가요?','모둠 친구들의 생각은 같나요, 다른가요?'],['이번엔 다른 가족이 따라 해 볼까요?','이번엔 다른 모둠원이 해 볼까요?']]
+};
+var GTIP=['선생님 팁: 먼저 찾은 친구가 다른 친구에게 힌트를 주게 해 주세요.','선생님 팁: 정답 대신 “왜 그렇게 생각했니?”를 물어 주세요.','선생님 팁: 모둠마다 다른 상상을 발표하게 해 보세요.','모둠원이 한 명씩 돌아가며 짧게 이야기해요.','사적지에서는 뛰거나 올라가지 않아요. 천천히, 조용히 해요.'];
+var SUB3={family:'가족 이야기 꺼내기',solo:'내 기억 꺼내기',friends:'서로의 이야기',group:'친구 이야기 듣기'};
+var MIS={
+ solo:{daereungwon:'무덤처럼 둥글게! 무덤 곡선이 가장 예쁘게 보이는 자리에서 찍어요.',cheomseongdae:'첨성대처럼 차곡차곡! 아래에서 올려다보며 찍어요.',gyerim:'금빛 상자 발견! 숲에서 빛이 드는 자리를 찾아 찍어요.',sunghyejeon:'기억하는 마음! 오늘 가장 기억하고 싶은 장면을 찍어요.'},
+ friends:{daereungwon:'무덤처럼 둥글게! 둘이 팔로 큰 동그라미를 만들어 찍어요.',cheomseongdae:'첨성대처럼 차곡차곡! 키 순서대로 나란히 서서 찍어요.',gyerim:'금빛 상자 발견! 두 손으로 상자 모양을 만들어 찍어요.',sunghyejeon:'기억하는 마음! 어깨동무하고 찍어요.'},
+ group:{daereungwon:'무덤처럼 둥글게! 모둠이 손잡고 큰 원을 만들어 찍어요.',cheomseongdae:'첨성대처럼 차곡차곡! 모둠이 키 순서대로 서서 찍어요.',gyerim:'금빛 상자 발견! 모둠이 두 손으로 상자 모양을 만들어 찍어요.',sunghyejeon:'기억하는 마음! 모둠이 어깨동무하고 찍어요.'}
+};
+function fix(t){var L=FIX[S.mode];if(!L)return t;for(var i=0;i<L.length;i++)t=t.split(L[i][0]).join(L[i][1]);return t}
+function Q(s,ty,who){if(S.mode!=='family'&&ty>=3&&ALT[S.mode])return ALT[S.mode][s.key][ty-3];return fix(s.q[ty][AI[who]])}
+function tipOf(ty){if(S.mode==='group')return GTIP[ty];if(S.mode==='family')return TYPES[ty].tip;return ''}
+function subOf(ty){return ty===3?SUB3[S.mode]||TYPES[3].s:TYPES[ty].s}
+function missionOf(s){return S.mode!=='family'&&MIS[S.mode]?MIS[S.mode][s.key]:MISSION[s.key]}
+
+
+function fresh(){return {v:2,mode:'family',auds:['kid','adult'],who:'kid',family:'',ans:{},stamps:{},hidden:{},own:{},photo:{},map:{},photos:{},think:{},order:[],names:{}}}
+function load(){var d=null;try{d=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}return d&&d.v===2?d:fresh()}
+var S=load();['ans','stamps','hidden','own','photo','map','photos','think'].forEach(function(k){S[k]=S[k]||{}});if(!S.auds||!S.auds.length)S.auds=['kid','adult'];if(!S.mode)S.mode='family';S.names=S.names||{};
+Object.keys(S.photo).forEach(function(k){if(!S.photos[k]||!S.photos[k].length)S.photos[k]=[{u:S.photo[k],c:''}]});S.photo={};
+if(!Array.isArray(S.order))S.order=ST.filter(function(x){return S.stamps[x.key]}).map(function(x){return x.key});
+function save(){try{localStorage.setItem(SK,JSON.stringify(S));return true}catch(e){return false}}
+function stampN(){return ST.filter(function(s){return S.stamps[s.key]}).length}
+function hiddenN(){return Object.keys(S.hidden).length}
+function chapterNo(k){return S.order.indexOf(k)+1}
+function firstPhoto(s){var p=S.photos[s.key];return p&&p.length?p[0].u:null}
+function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function byKey(k){for(var i=0;i<ST.length;i++)if(ST[i].key===k)return ST[i];return null}
+var app=document.getElementById('app');
+var cur={};
+
+function toast(msg){var h=document.getElementById('toastHost');h.innerHTML='<div class="toast" role="status">'+esc(msg)+'</div>';clearTimeout(toast._t);toast._t=setTimeout(function(){h.innerHTML=''},2600)}
+function dots(){var o='<span class="dots" aria-hidden="true">';ST.forEach(function(s){o+='<i class="'+(S.stamps[s.key]?'on':'')+'"></i>'});return o+'</span>'}
+function go(h){if(location.hash==='#'+h){route()}else{location.hash=h}}
+
+/* ---------- start ---------- */
+function vStart(){
+  var M=modeOf(S.mode), solo=S.mode==='solo';
+  app.innerHTML=
+  '<section class="hero">'+
+   '<p class="eyebrow">경주 질문 여행 · 시제품</p>'+
+   '<h1 class="logo"><span>왜?</span> 경주</h1>'+
+   '<p class="tag">묻고 답하며 완성하는<br>나만의 책 한 권</p>'+
+   '<div class="greet" style="width:100%;justify-content:center;margin-top:6px"><div class="big" style="width:42%">'+CHAR.cheom+'</div><p class="bubble">안녕하세요, 저는 첨이예요! 오늘은 누구와 함께 왔나요?</p></div>'+
+  '</section>'+
+  '<section class="paper" style="display:flex;flex-direction:column;gap:14px">'+
+   '<h2 style="font-size:22px">누구와 왔나요?</h2>'+
+   '<div class="modes" role="group" aria-label="누구와 왔나요">'+MODES.map(function(m){return '<button class="mode" data-mode="'+m.k+'" aria-pressed="'+(S.mode===m.k)+'"><b>'+m.n+'</b><small>'+m.d+'</small></button>'}).join('')+'</div>'+
+   '<h2 style="font-size:20px;margin-top:4px">'+(solo?'내 나이에 맞는 질문을 골라 주세요':'함께 온 사람의 나이를 모두 골라 주세요')+'</h2>'+
+   '<p class="muted" style="margin-top:-6px">'+(solo?'한 가지만 고를 수 있어요.':'고른 사람마다 나이에 맞는 질문이 나와요.')+'</p>'+
+   '<div class="choice" role="group" aria-label="질문 수준">'+
+    AUD.map(function(a){return '<button class="opt" data-aud="'+a.k+'" aria-pressed="'+(S.auds.indexOf(a.k)>-1)+'"><span><b>'+a.n+'</b><small>'+a.d+'</small></span><span class="tick" aria-hidden="true"></span></button>'}).join('')+
+   '</div>'+
+   (solo?'':'<div class="names"><h3 class="disp" style="font-size:18px">함께 온 사람을 뭐라고 부를까요? (선택)</h3><p class="muted" style="margin-top:-4px">책에 이 이름으로 실려요. 실명 대신 엄마, 할머니처럼 불러도 좋아요.</p>'+
+     S.auds.map(function(k){var ph={kid:'예: 지우',teen:'예: 민서',adult:'예: 엄마, 아빠',elder:'예: 할머니'}[k];return '<label class="field" for="nm_'+k+'">'+audOf(k).n+'<input type="text" id="nm_'+k+'" data-name="'+k+'" maxlength="10" placeholder="'+ph+'" value="'+esc(S.names[k]||'')+'"></label>'}).join('')+'</div>')+
+   '<label class="field" for="fam">책에 들어갈 이름 (선택)<input type="text" id="fam" maxlength="14" placeholder="'+M.ph+'" value="'+esc(S.family)+'"></label>'+
+   '<button class="btn block" id="startBtn">경주 질문 지도 열기</button>'+
+   '<div class="promise"><span>앱 설치 없음</span><span>회원가입 없음</span><span>기록은 이 폰에만 저장</span></div>'+
+  '</section>'+
+  '<p class="foot">2026 경북 로컬 관광자원 혁신 콘텐츠 공모전 제안 시제품 · 하브랩</p>';
+  app.querySelectorAll('[data-mode]').forEach(function(b){b.onclick=function(){S.mode=b.dataset.mode;
+    if(S.mode==='solo'&&S.auds.length>1){S.auds=[S.auds.indexOf('adult')>-1?'adult':S.auds[0]]}
+    S.who=S.auds[0];save();vStart()}});
+  app.querySelectorAll('[data-aud]').forEach(function(b){b.onclick=function(){var k=b.dataset.aud,i=S.auds.indexOf(k);
+    if(S.mode==='solo'){S.auds=[k];S.who=k;save();vStart();return}
+    if(i>-1){if(S.auds.length===1){toast('적어도 한 사람은 골라 주세요.');return}S.auds.splice(i,1)}else{S.auds.push(k);S.auds.sort(function(x,y){return AI[x]-AI[y]})}
+    if(S.auds.indexOf(S.who)<0)S.who=S.auds[0];save();vStart()}});
+  app.querySelectorAll('[data-name]').forEach(function(t){t.oninput=function(){var v=t.value.trim();if(v)S.names[t.dataset.name]=v;else delete S.names[t.dataset.name];save()}});
+  document.getElementById('fam').oninput=function(e){S.family=e.target.value.trim();save()};
+  document.getElementById('startBtn').onclick=function(){go('map')};
+}
+
+/* ---------- map ---------- */
+function vMap(){
+  var n=stampN();
+  var spots=ST.map(function(s,i){var fp=firstPhoto(s);
+    return '<button class="spot" style="left:'+s.pos.l+';top:'+s.pos.t+'" data-go="'+s.key+'" aria-label="'+(i+1)+'번 '+s.name+(S.stamps[s.key]?' (책 한 장 완성)':'')+'">'+
+      '<span class="ch">'+CHAR[s.ch]+'<span class="num" aria-hidden="true">'+(i+1)+'</span>'+(S.stamps[s.key]?'<span class="done" aria-hidden="true">제'+chapterNo(s.key)+'장<br>완성</span>':'')+(fp?'<img class="pic" alt="" src="'+fp+'">':'')+'</span>'+
+      '<span class="nm">'+s.name+'</span></button>';
+  }).join('');
+  app.innerHTML=
+  '<div class="topbar"><button class="back" data-go="">처음 화면</button><span class="stampcount">책 '+n+'장'+dots()+'</span></div>'+
+  '<h1 style="font-size:30px">경주 질문 지도</h1>'+
+  '<p class="muted" style="margin-top:-8px">장소 한 곳 = 책 한 장 · 4장이 모이면 책으로 묶을 수 있어요</p>'+
+  '<div class="map">'+
+   '<svg class="road" viewBox="0 0 300 400" preserveAspectRatio="none" aria-hidden="true"><path d="M70 70 C150 60 230 70 230 120 C230 190 70 160 70 230 C70 300 230 260 235 330" fill="none" stroke="rgba(22,33,62,.08)" stroke-width="30" stroke-linecap="round"/><path d="M66 64 C146 54 226 64 226 114 C226 184 66 154 66 224 C66 294 226 254 231 324" fill="none" stroke="#FFFDF8" stroke-width="26" stroke-linecap="round"/><path d="M66 64 C146 54 226 64 226 114 C226 184 66 154 66 224 C66 294 226 254 231 324" fill="none" stroke="#8EC1EE" stroke-width="3" stroke-dasharray="9 8" stroke-linecap="round"/><circle cx="260" cy="40" r="8" fill="#FFD66B"/><circle cx="30" cy="370" r="7" fill="#FFD66B"/><circle cx="150" cy="200" r="6" fill="#8EC1EE"/></svg>'+
+   spots+
+  '</div>'+
+  (n>=4?'<button class="btn block sun" data-go="book">나만의 책으로 묶기</button>':(n>0?'<button class="btn block ghost" data-go="book">지금까지 쓴 책 미리 보기 ('+n+'장)</button>':''))+
+  '<div class="paper qrnote"><span class="ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" fill="#16213E"/><rect x="14" y="3" width="7" height="7" fill="#16213E"/><rect x="3" y="14" width="7" height="7" fill="#16213E"/><rect x="15" y="15" width="3" height="3" fill="#16213E"/><rect x="19" y="19" width="2" height="2" fill="#16213E"/></svg></span>'+
+   '<p style="font-size:15px">현장에서는 안내판의 <b>QR을 찍으면</b> 그 장소 질문이 열려요. 본사업에서는 황리단길·중앙상가·재래시장·황성공원의 QR도 책의 한 장이 돼요. 체험할 때는 캐릭터를 눌러 보세요.</p></div>'+
+  '<p class="safety"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 20 H2 Z" fill="#FFD66B" stroke="#16213E" stroke-width="1.5"/><rect x="11" y="9" width="2" height="6" fill="#16213E"/><rect x="11" y="16.5" width="2" height="2" fill="#16213E"/></svg>걸을 땐 폰을 내려 두세요. 도착하면 질문이 열려요.</p>';
+}
+
+/* ---------- station ---------- */
+function deck(s){var d=S.map[s.key];if(!d||d.length!==5){d=[0,1,2,3,4];for(var i=4;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=d[i];d[i]=d[j];d[j]=t}S.map[s.key]=d;save()}return d}
+function list(s){return S.ans[s.key]=S.ans[s.key]||[]}
+function entry(s,n){var l=list(s);for(var i=0;i<l.length;i++)if(l[i].n===n)return l[i];return null}
+function pics(s){return S.photos[s.key]=S.photos[s.key]||[]}
+function thinks(s){return S.think[s.key]=S.think[s.key]||{}}
+function vStation(s){
+  if(cur.key!==s.key)cur={key:s.key,open:null,answered:false,follow:''};
+  if(S.auds.indexOf(S.who)<0)S.who=S.auds[0];
+  var d=deck(s), l=list(s), done=!!S.stamps[s.key], cnt=l.length, W=we(), solo=S.mode==='solo';
+  var whoRow=solo?'':'<h3 class="disp" style="font-size:17px;margin:2px 0 0">누가 뽑을까요?</h3><div class="who" role="group" aria-label="누가 카드를 뽑을까요?">'+S.auds.map(function(k){var a=audOf(k);return '<button data-who="'+k+'" aria-pressed="'+(S.who===k)+'">'+a.n+'</button>'}).join('')+'</div>';
+  var cards='<div class="deck">'+[0,1,2,3,4].map(function(n){var e=entry(s,n);
+    if(e)return '<button class="ncard used'+(cur.open===n?' open':'')+'" data-card="'+n+'" aria-label="'+(n+1)+'번 카드, '+TYPES[e.ty].t+', '+nm(e.a)+' 답함"><span class="nn">'+NUMS[n]+'</span><span class="nt">'+TYPES[e.ty].t+'</span><span class="na">'+nm(e.a)+' ✓</span></button>';
+    return '<button class="ncard'+(cur.open===n?' open':'')+'" data-card="'+n+'" aria-label="'+(n+1)+'번 카드 뽑기"><span class="big">'+NUMS[n]+'</span><span class="q" aria-hidden="true">?</span></button>'}).join('')+'</div>';
+  var doneTy={};l.forEach(function(e){doneTy[e.ty]=e});
+  var ladder5='<div class="ladder5" aria-label="질문 사다리 진행">'+[0,1,2,3,4].map(function(t){var e=doneTy[t];return '<div class="rg rg'+t+(e?' on':'')+'"><span>'+TYPES[t].t+'</span>'+(e?'<small>'+nm(e.a)+' ✓</small>':'')+'</div>'}).join('')+'</div>';
+  var panel='';
+  if(cur.open!=null){
+    var n=cur.open, ty=d[n], e=entry(s,n), who=e?e.a:S.who, T=TYPES[ty], q=Q(s,ty,who);
+    panel='<section class="paper qcard" id="qpanel" aria-label="'+(n+1)+'번 카드 질문">'+
+      '<div class="qhead"><span class="pill">'+NUMS[n]+'번 · '+T.t+' · '+subOf(ty)+'</span><span class="pill" style="background:'+audOf(who).bg+'">'+nm(who)+' 질문</span></div>'+
+      '<p class="qtext">'+esc(q)+'</p>'+
+      (tipOf(ty)?'<p class="tip">'+tipOf(ty)+'</p>':'')+
+      (cur.answered&&e?
+        '<p class="mine">'+W+'의 생각: '+esc(e.t===SPOKEN?'말로 생각을 나눴어요':e.t)+'</p>'+
+        '<div class="follow"><span class="av" aria-hidden="true">'+CHAR[s.ch]+'</span><div><b>질문친구의 되묻기</b><p>'+esc(cur.follow)+'</p></div></div>'+
+        '<div class="row"><button class="btn ghost" id="redo" style="flex:1;white-space:nowrap">다시 답하기</button><button class="btn" id="closeQ" style="flex:1;white-space:nowrap">다른 번호 뽑기</button></div>'
+      : e?
+        '<p class="mine">'+W+'의 생각: '+esc(e.t===SPOKEN?'말로 생각을 나눴어요':e.t)+'</p>'+
+        '<div class="row"><button class="btn ghost" id="redo" style="flex:1;white-space:nowrap">다시 답하기</button><button class="btn" id="closeQ" style="flex:1">닫기</button></div>'
+      :
+        '<label class="field" for="ans">'+(solo?'잠깐 생각한 뒤, 글이나 말로 남겨 주세요':'함께 이야기한 뒤, 생각을 글이나 말로 남겨 주세요')+'<textarea id="ans" data-nomic="1" maxlength="600" placeholder="정답은 없어요. 떠오른 생각 그대로! 말로 남기면 더 길게 담을 수 있어요."></textarea></label>'+
+        '<div class="row"><button class="btn" id="save" style="flex:1">글로 남기기</button><button class="btn ghost voice" id="voice" style="flex:1">'+MICSVG+'<span>말로 남기기</span></button></div>'+
+        '<button class="linkbtn" id="closeQ">다른 번호로 바꾸기</button>'
+      )+
+    '</section>';
+  }
+  var make='';
+  if(cnt>=NEED && !(cur.open!=null && !entry(s,cur.open))){
+    var th=thinks(s), people=solo?[S.auds[0]]:S.auds;
+    make='<section class="paper think" aria-label="책 한 장 만들기">'+
+      (done?'<div class="qhead"><h2 style="font-size:21px">제'+chapterNo(s.key)+'장 · '+s.name+'</h2><span class="pill" style="background:var(--sky-bg)">완성</span></div><p class="muted">여기 적은 내용은 언제든 고칠 수 있어요.</p>'
+           :'<h2 style="font-size:21px">책 한 장 만들기</h2><p class="muted">아래는 적지 않아도 괜찮아요. 적으면 책에 함께 실려요.</p>')+
+      '<h3 class="disp" style="font-size:18px">이곳에 대한 생각</h3>'+
+      '<p class="muted" style="margin-top:-6px">도움 질문: 이곳에서 가장 기억에 남는 것은? 다시 온다면 무엇을 하고 싶나요?</p>'+
+      people.map(function(k){return '<label class="field" for="th_'+k+'">'+(solo?'나의 생각':nm(k)+'의 생각')+'<textarea id="th_'+k+'" data-think="'+k+'" maxlength="600" placeholder="한두 줄도 좋고, 말로 길게 남겨도 좋아요">'+esc(th[k]||'')+'</textarea></label>'}).join('')+
+      '<div class="bonus"><b>'+W+'가 묻는 차례!</b><label class="field" for="own">'+weGa()+' '+s.name+'에게 묻고 싶은 ‘왜?’<textarea id="own" maxlength="200" placeholder="예: 왜 ○○일까?">'+esc(S.own[s.key]||'')+'</textarea></label></div>'+
+      (done?'<div class="row"><button class="btn ghost" id="stampBtn" style="flex:1">고친 내용 저장</button><button class="btn" data-go="map" style="flex:1">지도로</button></div>'
+           :'<button class="btn block sun" id="stampBtn">책 한 장 완성하기</button>')+
+    '</section>';
+  }
+  var P=pics(s);
+  var photoSec='<section class="paper photo" aria-label="사진">'+
+   '<div class="qhead"><h2 style="font-size:21px">사진</h2><span class="pill" style="background:var(--sky-bg)">'+P.length+'/4장</span></div>'+
+   '<p class="muted" style="margin-top:-6px">첫 사진 미션: '+esc(missionOf(s))+'</p>'+
+   (P.length?'<div class="ph4">'+P.map(function(p,i){return '<figure><img src="'+p.u+'" alt="'+s.name+' 사진 '+(i+1)+'"><input type="text" data-cap="'+i+'" maxlength="40" placeholder="사진에 한 줄" value="'+esc(p.c||'')+'" aria-label="사진 '+(i+1)+' 한 줄 설명"><button class="rm" data-rm="'+i+'">빼기</button></figure>'}).join('')+'</div>':'')+
+   '<input type="file" id="ph" accept="image/*" hidden>'+
+   (P.length<4?'<label for="ph" class="btn '+(P.length?'ghost':'sun')+' block" role="button" tabindex="0" id="phBtn">사진 찍기·고르기</label>':'<p class="muted">4장이 모두 찼어요. 바꾸려면 하나를 빼 주세요.</p>')+
+   '<p class="muted">사진은 서버로 보내지 않고 이 폰에만 남아요.</p>'+
+  '</section>';
+  app.innerHTML=
+  '<div class="topbar"><button class="back" data-go="map">← 지도</button><span class="stampcount">책 '+stampN()+'장'+dots()+'</span></div>'+
+  '<div class="greet"><div class="big">'+CHAR[s.ch]+'</div><p class="bubble">'+esc(s.greet)+'</p></div>'+
+  '<h1 style="font-size:28px">'+s.name+'</h1>'+
+  '<details class="fact"><summary>알고 있나요?</summary><p>'+esc(s.fact)+'</p><p class="note">시제품 예시 문구 · 실제 운영 시 해설사·전문가 검수 후 확정</p></details>'+
+  '<section class="paper pick" aria-label="질문 사다리">'+
+   '<div class="qhead"><h2 style="font-size:21px">질문 사다리</h2><span class="pill">'+cnt+'/5칸</span></div>'+
+   ladder5+
+   '<p class="muted">번호 카드를 하나 뽑을 때마다 사다리가 한 칸씩 올라가요. 어느 칸이 나올지는 카드가 정해요!</p>'+
+   whoRow+cards+
+   '<p class="prog">'+(done?(cnt===5?'사다리 꼭대기까지 올랐어요!':'책 한 장 완성 · 남은 칸도 올라가 볼까요?'):(cnt>=NEED?'<b>책 한 장</b>을 만들 수 있어요! 아래로 내려가 보세요.':'두 칸 이상 오르면 책 한 장'))+'</p>'+
+  '</section>'+
+  panel+make+photoSec+
+  (l.length?answersList(s):'')+
+  (l.length||done||P.length?'<div class="confirm" id="stReset"><button class="linkbtn" id="stResetBtn">이 장소 처음부터 다시 하기</button></div>':'');
+
+  attachMics();
+  app.querySelectorAll('[data-who]').forEach(function(b){b.onclick=function(){S.who=b.dataset.who;save();if(cur.open!=null&&!entry(s,cur.open)){vStation(s)}else{app.querySelectorAll('[data-who]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))})}}});
+  app.querySelectorAll('[data-card]').forEach(function(b){b.onclick=function(){var n=+b.dataset.card;cur.open=n;cur.answered=false;vStation(s);var p=document.getElementById('qpanel');if(p)p.scrollIntoView({behavior:'smooth',block:'start'})}});
+  var sv=document.getElementById('save'), sp=document.getElementById('spoken'), cq=document.getElementById('closeQ'), sb=document.getElementById('stampBtn'), rd=document.getElementById('redo');
+  var ansT=document.getElementById('ans');if(ansT&&sv){ansT.addEventListener('input',function(){sv.classList.toggle('ready',!!ansT.value.trim())})}
+  if(sv){sv.onclick=function(){var v=document.getElementById('ans').value.trim();if(!v){toast('한 줄만 적어도 충분해요. 적기 어려우면 말로 남기기를 눌러 보세요.');document.getElementById('ans').focus();return}answer(s,v)}}
+  if(sp){sp.onclick=function(){answer(s,SPOKEN)}}
+  var vb=document.getElementById('voice');
+  if(vb){vb.onclick=function(){var ta=document.getElementById('ans');toggleMic(ta,vb,function(){var v=ta.value.trim();if(v){answer(s,v)}else{toast('말씀이 들리지 않았어요. 다시 눌러 말해 보세요.')}},'말로 남기기','듣는 중 · 다 말했으면 누르세요')}}
+  if(cq){cq.onclick=function(){cur.open=null;cur.answered=false;vStation(s)}}
+  if(rd){rd.onclick=function(){S.ans[s.key]=list(s).filter(function(e){return e.n!==cur.open});cur.answered=false;save();vStation(s)}}
+  app.querySelectorAll('[data-think]').forEach(function(t){t.oninput=function(){var v=t.value.trim(),th=thinks(s);if(v)th[t.dataset.think]=v;else delete th[t.dataset.think];save()}});
+  var ow=document.getElementById('own');if(ow){ow.oninput=function(){var v=ow.value.trim();if(v)S.own[s.key]=v;else delete S.own[s.key];save()}}
+  if(sb){sb.onclick=function(){if(done){save();toast('고친 내용을 저장했어요.');return}S.stamps[s.key]=true;if(S.order.indexOf(s.key)<0)S.order.push(s.key);save();stampOverlay(s)}}
+  app.querySelectorAll('[data-cap]').forEach(function(t){t.oninput=function(){var p=pics(s)[+t.dataset.cap];if(p){p.c=t.value.trim();save()}}});
+  app.querySelectorAll('[data-rm]').forEach(function(b){b.onclick=function(){pics(s).splice(+b.dataset.rm,1);save();vStation(s)}});
+  var ph=document.getElementById('ph'), pb=document.getElementById('phBtn');
+  if(pb){pb.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();ph.click()}}}
+  if(ph){ph.onchange=function(){var f=ph.files&&ph.files[0];if(!f)return;toast('사진을 정리하는 중이에요…');
+    shrink(f,720).then(function(url){pics(s).push({u:url,c:''});if(!save()){toast('폰 저장 공간이 부족해 사진이 이 화면에만 남아요.')}else{toast('사진 '+pics(s).length+'/4장 · 한 줄 설명을 남겨 보세요.')}vStation(s)})
+    .catch(function(){toast('이 사진은 열 수 없어요. 다른 사진을 골라 주세요.')})}}
+  var rb=document.getElementById('stResetBtn');
+  if(rb){rb.onclick=function(){var box=document.getElementById('stReset');
+    box.innerHTML='<span>'+s.name+'의 답·사진·생각을 지울까요?</span><button class="btn" id="stYes">지우기</button><button class="btn ghost" id="stNo">취소</button>';
+    document.getElementById('stYes').onclick=function(){['ans','stamps','hidden','own','photo','map','photos','think'].forEach(function(k){delete S[k][s.key]});S.order=S.order.filter(function(k){return k!==s.key});save();cur={};vStation(s);window.scrollTo(0,0);toast(s.name+' 카드를 새로 섞었어요. 처음부터 다시 시작해요.')};
+    document.getElementById('stNo').onclick=function(){vStation(s)}}}
+}
+function shrink(file,max){return new Promise(function(res,rej){var r=new FileReader();r.onerror=rej;r.onload=function(){var im=new Image();im.onerror=rej;im.onload=function(){
+  var k=Math.min(1,max/Math.max(im.width,im.height)),w=Math.round(im.width*k),h=Math.round(im.height*k),cv=document.createElement('canvas');cv.width=w;cv.height=h;
+  cv.getContext('2d').drawImage(im,0,0,w,h);try{res(cv.toDataURL('image/jpeg',0.72))}catch(e){rej(e)}};im.src=r.result};r.readAsDataURL(file)})}
+function urlImg(u){return new Promise(function(res){if(!u)return res(null);var i=new Image();i.onload=function(){res(i)};i.onerror=function(){res(null)};i.src=u})}
+function answer(s,v){
+  var d=deck(s),n=cur.open,ty=d[n];
+  S.ans[s.key]=list(s).filter(function(e){return e.n!==n});S.ans[s.key].push({n:n,ty:ty,a:S.who,t:v,ts:Date.now()});
+  var pool=FOLLOW[ty];cur.follow=fix(pool[v===SPOKEN?0:(v.length%pool.length)]);cur.answered=true;
+  var spark=v!==SPOKEN&&(v.length>=30||v.indexOf('?')>-1||v.indexOf('왜')>-1);
+  if(spark&&!S.hidden[s.key]){S.hidden[s.key]=true;save();vStation(s);toast('반짝 질문 카드를 찾았어요! 깊이 생각한 사람에게 주는 히든 카드예요.');return}
+  save();vStation(s);var p=document.getElementById('qpanel');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function answersList(s){var l=list(s).slice().sort(function(a,b){return a.n-b.n});
+  var li=l.map(function(e){return '<li><b style="font-family:var(--display);font-weight:400">'+NUMS[e.n]+'번 '+TYPES[e.ty].t+'</b> · '+nm(e.a)+' · '+esc(e.t===SPOKEN?'말로 생각을 나눴어요':e.t)+'</li>'}).join('');
+  return '<div class="paper"><h2 style="font-size:19px;margin-bottom:6px">'+we()+'가 남긴 답</h2><ul style="margin:0;padding-left:18px;display:grid;gap:4px">'+li+'</ul></div>'}
+function stampOverlay(s){
+  var n=stampN(), no=chapterNo(s.key);
+  var host=document.createElement('div');host.className='overlay';host.setAttribute('role','dialog');host.setAttribute('aria-modal','true');host.setAttribute('aria-label','책 한 장 완성');
+  host.innerHTML='<div class="stampbox"><div class="seal">제'+no+'장<br>'+s.name+'</div><h2 style="font-size:24px">책 한 장 완성!</h2><p>'+(n>=4?'4장이 모였어요. 이제 나만의 책으로 묶을 수 있어요!':'책 '+n+'장 · 4장이 모이면 책으로 묶을 수 있어요.')+'</p>'+
+   (n>=4?'<button class="btn block sun" id="ovGo">책으로 묶기</button>':'<button class="btn block" id="ovGo">지도로 가기</button>')+'</div>';
+  document.body.appendChild(host);
+  var b=host.querySelector('#ovGo');b.focus();
+  b.onclick=function(){host.remove();cur={};go(n>=4?'book':'map')};
+}
+
+/* ---------- book ---------- */
+function josa(w,a,b){var c=w.charCodeAt(w.length-1);if(c<0xAC00||c>0xD7A3)return w+b;return w+(((c-0xAC00)%28)?a:b)}
+function nm(k){return (S.names&&S.names[k])||audOf(k).n}
+function person(k){var n=S.names&&S.names[k];if(S.mode==='solo')return '나';if(n)return n;if(S.mode==='friends')return '우리';if(S.mode==='group')return audOf(k).n+' 모둠원';return audOf(k).p}
+function storyOf(s){
+  var out=[], l=list(s).slice().sort(function(a,b){return a.n-b.n}), th=thinks(s), P=pics(s), solo=S.mode==='solo';
+  out.push(s.name+'에서 '+(solo?'나는':'우리는')+' 질문 카드 '+l.length+'장을 뽑았다.');
+  l.slice(0,3).forEach(function(e){var q=Q(s,e.ty,e.a);
+    if(e.t===SPOKEN){out.push('“'+q+'” 이 '+TYPES[e.ty].t+' 질문은 '+(solo?'마음속으로 생각해 보았다.':'말로 생각을 나눴다.'))}
+    else{out.push('“'+q+'”라는 '+TYPES[e.ty].t+' 질문에 '+josa(person(e.a),'은','는')+' “'+e.t+'”라고 답했다.')}});
+  Object.keys(th).forEach(function(k){out.push(josa(person(k),'은','는')+' 이곳에 대해 “'+th[k]+'”라고 적었다.')});
+  P.forEach(function(p){if(p.c)out.push('사진 한 장에는 “'+p.c+'”라는 말을 남겼다.')});
+  if(S.own[s.key])out.push('그리고 '+(solo?'나는':'우리는')+' '+s.name+'에게 물었다. “'+S.own[s.key]+'”');
+  return out.join(' ');
+}
+function bookTitle(){return S.family?(S.family+'의 경주 여행기'):modeOf(S.mode).book}
+function today(){var d=new Date();return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.'}
+function pageCover(){return '<div class="pg cover"><p class="eyebrow">왜? 경주 · 나만의 책 한 권</p><div class="ch" aria-hidden="true">'+CHAR.cheom+'</div><h2 class="ttl">'+esc(bookTitle())+'</h2><p class="by">'+today()+'<br>지은이 · '+esc(S.family||'경주를 걸은 사람')+'</p></div>'}
+/* ---------- 책 문장 엮기 (기록 + 검수된 장소 소개만 사용, 경험은 지어내지 않음) ---------- */
+var SCENE={
+ daereungwon:['둥근 무덤들이 낮은 언덕처럼 이어진 대릉원.','천오백 년 전 신라의 왕과 귀족들이 잠든 대릉원.'],
+ cheomseongdae:['천 년 넘게 같은 자리에서 하늘을 올려다본 첨성대.','돌을 차곡차곡 쌓아 올린 신라의 별 보는 탑, 첨성대.'],
+ gyerim:['오래된 나무들이 그늘을 드리운 계림 숲.','금빛 상자 이야기가 전해 오는 숲, 계림.'],
+ sunghyejeon:['황리단길의 북적임 바로 옆, 조용히 자리를 지켜 온 숭혜전.','신라의 세 왕을 모시고 지금도 제례가 이어지는 숭혜전.']
+};
+var SUBT={daereungwon:'왕들의 언덕에서',cheomseongdae:'별을 세던 돌탑 앞에서',gyerim:'금빛 상자의 숲에서',sunghyejeon:'천 년의 기억 앞에서'};
+var ASKER={daereungwon:'대릉원',cheomseongdae:'첨이',gyerim:'계림의 나무',sunghyejeon:'숭혜전'};
+var LAST={
+ daereungwon:'천오백 년 동안 이렇게 많은 질문을 받은 건 처음이에요. 또 와서 물어봐 줄래요?',
+ cheomseongdae:'내 창문으로 본 별보다, 오늘 들은 이야기가 더 반짝였어요.',
+ gyerim:'오늘 들은 이야기는 숲이 나이테에 새겨 둘게요.',
+ sunghyejeon:'기억해 주는 사람이 있으면, 오래된 것도 오늘이 돼요.'
+};
+var ANS=[
+ ['{P}의 눈에 먼저 들어온 것은 이것이었다.','{P} 이렇게 찾아냈다.'],
+ ['{P}의 추리는 이랬다.','{P} 곰곰이 이유를 짚어 보았다.'],
+ ['{P} 잠시 다른 사람이 되어 보았다.','상상은 {P}의 몫이었다.'],
+ ['질문은 {P}의 오래된 기억을 불러냈다.','{P} 기억 하나를 꺼내 놓았다.'],
+ ['몸으로 해 보는 미션 끝에 {P} 이렇게 말했다.','{P}의 대답은 이랬다.']
+];
+var LINK=['','그러자 ','이번에는 ','이어서 '];
+function ra(t){var m=t.replace(/[\s.!?~…”"']+$/,'');var c=m.charCodeAt(m.length-1);if(t!==m.replace(/\s+$/,'')&&/[.!?]$/.test(t.trim()))return '라고';if(c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28)return '이라고';return '라고'}
+function pick(arr,seed){return arr[Math.abs(seed)%arr.length]}
+function subj(k,which){var p=person(k);return which==='은'?josa(p,'은','는'):which==='이'?josa(p,'이','가'):p}
+function fillP(tpl,k){return tpl.replace('{P}의',person(k)+'의').replace('{P}',subj(k,'은'))}
+function groupWord(){return S.mode==='solo'?'나는':S.mode==='family'?'우리 가족은':S.mode==='group'?'우리 모둠은':'우리는'}
+function bestAnswer(s){var l=list(s).filter(function(e){return e.t!==SPOKEN});if(!l.length)return null;
+  var kid=l.filter(function(e){return e.a==='kid'});var pool=kid.length?kid:l;
+  return pool.slice().sort(function(a,b){return b.t.length-a.t.length})[0]}
+function storyParas(s){
+  var l=list(s).slice().sort(function(a,b){return a.n-b.n}), th=thinks(s), P=pics(s), seed=s.key.length+l.length;
+  var paras=[];
+  /* 1. 장소 */
+  paras.push(pick(SCENE[s.key],seed)+' '+groupWord()+' 이곳에서 질문 '+l.length+'개를 만났다.');
+  /* 2. 묻고 답하기 */
+  var qa=l.map(function(e,i){
+    var q='「'+Q(s,e.ty,e.a)+'」';
+    var ask=(i===0?josa(ASKER[s.key],'이','가')+' 물었다. ':LINK[i%LINK.length]+josa(ASKER[s.key],'이','가')+' 다시 물었다. ')+q;
+    if(e.t===SPOKEN)return ask+' 이 질문은 글 대신 말로 나눴다. 그 이야기는 '+(S.mode==='solo'?'나만':'우리만')+' 안다.';
+    return ask+' '+fillP(pick(ANS[e.ty],seed+i),e.a)+' “'+e.t+'”';
+  });
+  if(qa.length)paras.push(qa.join(' '));
+  /* 3. 사진과 생각 */
+  var ci=Math.max(0,S.order.indexOf(s.key)), tail=[];
+  var caps=P.filter(function(p){return p.c}).map(function(p){return '“'+p.c+'”'});
+  if(caps.length)tail.push(pick(['사진 속에는 '+caps.join(', ')+'의 순간이 남았다.','사진 한 장에는 '+caps.join(', ')+'라는 말을 붙여 두었다.','카메라는 '+caps.join(', ')+'의 순간을 붙잡았다.'],ci));
+  var tk=Object.keys(th), V=['적었다','남겼다','썼다'];
+  if(tk.length){
+    if(S.mode==='solo'){tail.push(pick(['이곳을 떠나기 전, 나는 한 줄을 남겼다.','돌아서기 전, 마음에 남은 것을 적었다.','이곳에서의 마지막 생각은 이랬다.'],ci)+' “'+th[tk[0]]+'”')}
+    else{tail.push(pick(['이곳을 떠나기 전, 저마다 한 줄씩 남겼다.','돌아서기 전, 각자의 마음에 남은 것을 적었다.','같은 곳에 서 있었지만, 마음에 남은 것은 저마다 달랐다.'],ci));
+      tk.forEach(function(k,j){tail.push(subj(k,'은')+' “'+th[k]+'”'+ra(th[k])+' '+V[(j+ci)%3]+'.')})}
+  }
+  if(S.own[s.key])tail.push(pick(['그리고 '+(S.mode==='solo'?'나는':'우리는')+' '+s.name+'에게 질문 하나를 남겼다. “'+S.own[s.key]+'” 그 답은 아직 이 책의 빈칸으로 남아 있다.','마지막 질문은 '+(S.mode==='solo'?'내가':'우리가')+' 던졌다. “'+S.own[s.key]+'” 답은 다음에 다시 와서 채울 빈칸이다.','이번에는 '+(S.mode==='solo'?'내가':'우리가')+' '+s.name+'에게 물었다. “'+S.own[s.key]+'” 이 물음표는 다음 장을 기다린다.'],ci));
+  if(tail.length)paras.push(tail.join(' '));
+  return paras;
+}
+
+function pageToc(ch){
+  var who=S.mode==='solo'?'나 혼자':S.auds.map(function(k){return nm(k)}).join(' · ');
+  return '<div class="pg"><p class="run">차례</p><h2 class="h">이 책의 차례</h2><ol class="toc">'+ch.map(function(s,i){var pn=pics(s).length;return '<li><span>제'+(i+1)+'장</span> '+s.name+'<i>'+SUBT[s.key]+'</i></li>'}).join('')+'</ol>'+
+   '<p class="intro">이 책은 '+today()+', '+esc(modeOf(S.mode).n==='혼자'?'내가':(S.family?S.family+'가':'우리가'))+' 경주를 걸으며 묻고 답한 기록입니다. 질문은 첨이와 장소 친구들이 건넸고, 답은 '+(S.mode==='solo'?'내가':'우리가')+' 썼습니다.</p>'+
+   '<div class="kv"><p><b>함께 쓴 사람</b> '+esc(modeOf(S.mode).n)+' · '+esc(who)+'</p></div></div>'}
+function pageChapter(s,i){
+  var P=pics(s), l=list(s).slice().sort(function(a,b){return a.n-b.n}), best=bestAnswer(s), paras=storyParas(s);
+  return '<div class="pg chap"><p class="run">제'+(i+1)+'장</p><h2 class="h">'+s.name+'</h2><p class="subt">'+SUBT[s.key]+'</p>'+
+   (P.length?'<figure class="hero"><img src="'+P[0].u+'" alt="'+s.name+' 사진">'+(P[0].c?'<figcaption>'+esc(P[0].c)+'</figcaption>':'')+'</figure>':'')+
+   (P.length>1?'<div class="thumbs">'+P.slice(1).map(function(p,k){return '<figure><img src="'+p.u+'" alt="'+s.name+' 사진 '+(k+2)+'">'+(p.c?'<figcaption>'+esc(p.c)+'</figcaption>':'')+'</figure>'}).join('')+'</div>':'')+
+   (best?'<blockquote class="pull">“'+esc(best.t)+'”<cite>— '+esc(person(best.a))+'</cite></blockquote>':'')+
+   '<div class="prose">'+paras.map(function(t){return '<p>'+esc(t)+'</p>'}).join('')+'</div>'+
+   '<div class="say"><span class="mini" aria-hidden="true">'+CHAR[s.ch]+'</span><p><b>'+ASKER[s.key]+'의 한마디</b>'+esc(LAST[s.key])+'</p></div>'+
+   '<p class="known"><b>알고 있나요?</b> '+esc(s.fact)+'</p>'+
+   '<details class="raw"><summary>이 장의 기록 그대로 보기</summary><div class="kv">'+l.map(function(e){return '<p><b>'+TYPES[e.ty].t+'</b> 「'+esc(Q(s,e.ty,e.a))+'」<br>→ '+esc(e.t===SPOKEN?'말로 생각을 나눴어요':e.t)+'</p>'}).join('')+'</div></details>'+
+   '<p class="ainote">시제품은 기록을 그대로 엮었어요. 본사업에서는 AI 글 작가가 하지 않은 일은 쓰지 않고 더 풍부한 문장으로 다듬어요.</p></div>'}
+function pageEnd(ch){var owns=ch.filter(function(s){return S.own[s.key]}),qN=ch.reduce(function(a,s){return a+list(s).length},0),pN=ch.reduce(function(a,s){return a+pics(s).length},0);
+  return '<div class="pg end"><p class="run">맺음말</p><div class="ch" aria-hidden="true">'+CHAR.cheom+'</div><h2 class="h" style="text-align:center">첨이의 맺음말</h2>'+
+   '<p class="endtxt">“정답 말고, '+(S.mode==='solo'?'당신의':'여러분의')+' 답을 들려줘서 고마워요.<br>다음에 경주에 오면, 이 책에 새 장을 더해 주세요.”</p>'+
+   (owns.length?'<div class="whys"><b>이 책에 남은 '+we()+'의 왜?</b>'+owns.map(function(s){return '<p>'+esc(S.own[s.key])+'<span> — '+s.name+'</span></p>'}).join('')+'</div>':'')+
+   '<div class="stats"><p><b>'+ch.length+'</b>장</p><p><b>'+qN+'</b>개의 답</p><p><b>'+pN+'</b>장의 사진</p><p><b>'+owns.length+'</b>개의 왜?</p></div></div>'}
+function vBook(){
+  var n=stampN(), ch=S.order.map(byKey).filter(Boolean);
+  var pages=[pageCover(),pageToc(ch)].concat(ch.map(pageChapter),[pageEnd(ch)]);
+  if(cur.key!=='__book')cur={key:'__book',page:0};
+  if(cur.page>=pages.length)cur.page=pages.length-1;
+  var pg=cur.page;
+  app.innerHTML=
+  '<div class="topbar"><button class="back" data-go="map">← 지도</button><span class="stampcount">책 '+n+'장'+dots()+'</span></div>'+
+  (n<4?'<p class="paper">지금은 '+n+'장이에요. 4장이 모이면 책으로 묶을 수 있어요. 지금은 미리 보기예요.</p>':'')+
+  '<section class="bookview" aria-label="책 넘겨 보기" aria-roledescription="책"><div class="sheet" id="sheet">'+pages[pg]+'<p class="pno">'+(pg+1)+' / '+pages.length+'</p></div></section>'+
+  '<div class="pager"><button class="btn ghost" id="prev"'+(pg===0?' disabled':'')+'>← 앞 장</button><button class="btn" id="next"'+(pg===pages.length-1?' disabled':'')+'>다음 장 →</button></div>'+
+  '<label class="field paper" for="fam2">책에 들어갈 이름<input type="text" id="fam2" maxlength="14" placeholder="'+modeOf(S.mode).ph+'" value="'+esc(S.family)+'"></label>'+
+  '<section class="paper" style="display:flex;flex-direction:column;gap:10px"><h2 style="font-size:20px">책 받기</h2>'+
+   '<button class="btn block" disabled>AI 완성 전자책 받기 · 2,000원</button>'+
+   '<button class="btn block ghost" disabled>인쇄본 주문 · 10쪽 9,900원부터</button>'+
+   '<p class="muted">시제품에서는 결제가 열리지 않아요. 아래 표지 이미지는 저장할 수 있어요.</p></section>'+
+  '<div id="cardWrap" aria-live="polite"><p class="paper">표지 이미지를 그리는 중이에요…</p></div>'+
+  '<p class="muted" style="text-align:center">이미지를 길게 눌러 사진첩에 저장하세요.</p>'+
+  '<div class="later"><b>다음에 오면, 이 책에 장이 더해져요</b>골목·시장·공원의 QR을 찍을 때마다 새 장이 생기고, 질문도 계절마다 바뀌어요.</div>'+
+  '<div class="paper" style="display:flex;flex-direction:column;gap:10px"><h2 style="font-size:19px">다음 ‘왜?’ 여행</h2><div class="row"><span class="pill">#왜안동</span><span class="pill">#왜고령</span><span class="pill" style="background:var(--sky-bg)">경북 어디든</span></div></div>'+
+  '<div class="confirm" id="resetBox"><button class="btn ghost" id="reset">처음부터 다시 체험하기</button></div>'+
+  '<p class="foot">시제품 · 답과 사진은 서버로 보내지 않고 이 브라우저에만 남아요</p>';
+  function turn(d){var np=cur.page+d;if(np<0||np>=pages.length)return;cur.page=np;vBook();var b=app.querySelector('.bookview');if(b)b.scrollIntoView({behavior:'smooth',block:'start'})}
+  document.getElementById('prev').onclick=function(){turn(-1)};
+  document.getElementById('next').onclick=function(){turn(1)};
+  var sh=document.getElementById('sheet'),x0=null;
+  sh.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  sh.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>60)turn(dx<0?1:-1)});
+  var t;document.getElementById('fam2').oninput=function(e){S.family=e.target.value.trim();save();clearTimeout(t);t=setTimeout(function(){var h=app.querySelector('.pg.cover .ttl');if(h)h.textContent=bookTitle();drawCard()},400)};
+  document.getElementById('reset').onclick=function(){var box=document.getElementById('resetBox');box.innerHTML='<span>기록을 모두 지울까요?</span><button class="btn" id="yes">지우기</button><button class="btn ghost" id="no">취소</button>';
+    document.getElementById('yes').onclick=function(){S=fresh();save();cur={};go('')};
+    document.getElementById('no').onclick=vBook};
+  drawCard();
+}
+function svgImg(svg){return new Promise(function(res){var i=new Image();i.onload=function(){res(i)};i.onerror=function(){res(null)};
+  i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace(/ role="img" aria-label="[^"]*"/,''))})}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function wrapLines(c,text,maxW,sep){var parts=sep?text.split(sep):text.split(' '),joiner=sep||' ',line='',lines=[];
+  for(var i=0;i<parts.length;i++){var test=line?line+joiner+parts[i]:parts[i];if(c.measureText(test).width>maxW&&line){lines.push(line);line=parts[i]}else line=test}
+  if(line)lines.push(line);return lines}
+function drawCard(){
+  var W=1080,H=1500,cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');
+  var ch=S.order.map(byKey).filter(Boolean);
+  var fontsReady=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('40px Jua'),document.fonts.load('34px "Noto Sans KR"')]).catch(function(){}):Promise.resolve();
+  var photos=[];
+  fontsReady.then(function(){return Promise.all(ch.slice(0,4).map(function(s){return urlImg(firstPhoto(s))}))}).then(function(p){photos=p;return svgImg(CHAR.cheom)}).then(function(im){
+    c.fillStyle='#14254A';c.fillRect(0,0,W,H);
+    c.fillStyle='#0E1A36';c.fillRect(0,0,70,H);c.fillStyle='#FFD66B';c.fillRect(70,0,6,H);
+    var stars=[[200,110,4],[420,80,3],[760,90,5],[1000,300,4],[160,420,3],[960,560,3],[220,720,4],[900,800,3],[560,100,3]];
+    stars.forEach(function(s){c.fillStyle=s[2]>4?'#FFD66B':'#FFF6E9';c.beginPath();c.arc(s[0],s[1],s[2],0,7);c.fill()});
+    c.fillStyle='#FFD66B';c.beginPath();c.arc(930,120,44,0,7);c.fill();c.fillStyle='#14254A';c.beginPath();c.arc(948,106,41,0,7);c.fill();
+    c.strokeStyle='rgba(255,214,107,.55)';c.lineWidth=3;rr(c,120,60,900,1380,24);c.stroke();
+    c.textAlign='center';c.fillStyle='#FFD66B';c.font='36px Jua, sans-serif';c.fillText('왜? 경주 · 나만의 책 한 권',575,170);
+    c.fillStyle='#FFF6E9';c.font='84px Jua, sans-serif';var tl=wrapLines(c,bookTitle(),760).slice(0,2);tl.forEach(function(l,k){c.fillText(l,575,290+k*100)});
+    var ty=290+tl.length*100;
+    if(im){c.fillStyle='#1F3566';c.beginPath();c.arc(575,ty+190,190,0,7);c.fill();c.strokeStyle='rgba(255,214,107,.6)';c.lineWidth=4;c.beginPath();c.arc(575,ty+190,190,0,7);c.stroke();var iw=300,ih=Math.round(iw*im.height/im.width);c.drawImage(im,575-iw/2,ty+190-ih/2,iw,ih)}
+    var py=ty+420;
+    if(photos.some(Boolean)){var ps=170,gap=24,cnt=photos.length,x0=575-(cnt*ps+(cnt-1)*gap)/2;
+      photos.forEach(function(ph,k){var x=x0+k*(ps+gap);c.save();c.translate(x+ps/2,py+ps/2);c.rotate((k%2?1:-1)*0.04);
+        c.fillStyle='#FFFDF8';rr(c,-ps/2,-ps/2,ps,ps,12);c.fill();
+        if(ph){var inner=ps-14,sc=Math.max(inner/ph.width,inner/ph.height),sw=inner/sc,sh=inner/sc;c.save();rr(c,-inner/2,-inner/2,inner,inner,8);c.clip();c.drawImage(ph,(ph.width-sw)/2,(ph.height-sh)/2,sw,sh,-inner/2,-inner/2,inner,inner);c.restore()}
+        else{c.fillStyle='#DCEBFA';rr(c,-ps/2+7,-ps/2+7,ps-14,ps-14,8);c.fill()}
+        c.restore()});py+=ps+50}
+    c.fillStyle='#C9D6EE';c.font='34px "Noto Sans KR", sans-serif';
+    var tocL=wrapLines(c,ch.length?ch.map(function(s,i){return '제'+(i+1)+'장 '+s.name}).join(' · '):'아직 쓴 장이 없어요',820,' · ').slice(0,2);
+    tocL.forEach(function(l,k){c.fillText(l,575,py+k*48)});
+    c.fillStyle='#FFF6E9';c.font='32px "Noto Sans KR", sans-serif';c.fillText(today()+'  ·  지은이 '+(S.family||'경주를 걸은 사람'),575,1330);
+    c.fillStyle='#FFD66B';c.font='32px Jua, sans-serif';c.fillText('#왜경주  ·  묻고 답하며 완성하는 나만의 책 한 권',575,1395);
+    var url='';try{url=cv.toDataURL('image/png')}catch(e){}
+    var wrapEl=document.getElementById('cardWrap');if(!wrapEl)return;
+    wrapEl.innerHTML=url?'<img class="cardimg" alt="나만의 책 표지 이미지" src="'+url+'">':'<p class="paper">이 브라우저에서는 표지 이미지를 만들 수 없어요.</p>';
+  });
+}
+
+
+/* ---------- 말로 남기기 (음성 → 글자) ---------- */
+var REC=null;
+var MICSVG='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M8 21h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+function attachMics(){app.querySelectorAll('textarea').forEach(function(ta){if(ta.dataset.mic||ta.dataset.nomic)return;ta.dataset.mic='1';
+  var b=document.createElement('button');b.type='button';b.className='mic';b.innerHTML=MICSVG+'<span>말로 남기기</span>';
+  ta.insertAdjacentElement('afterend',b);b.onclick=function(){toggleMic(ta,b)}})}
+function kbHint(ta){
+  ta.focus();
+  var old=ta.parentNode.querySelector('.kbhint');if(old)old.remove();
+  var h=document.createElement('p');h.className='kbhint';h.setAttribute('role','status');
+  h.innerHTML=MICSVG+'<span><b>키보드의 마이크</b>를 누르고 말해 주세요.<br>갤럭시는 화면 맨 아래, 아이폰은 키보드 위·아래에 있어요. '+(ta.id==='ans'?'다 말한 뒤 <b>글로 남기기</b>를 눌러야 저장돼요.':'말한 내용은 저절로 저장돼요.')+'</span>';
+  ta.insertAdjacentElement('afterend',h);
+  var off=function(){if(ta.value.trim()){h.remove();ta.removeEventListener('input',off)}};ta.addEventListener('input',off);
+}
+function toggleMic(ta,b,done,idle,busy){idle=idle||'말로 남기기';busy=busy||'듣는 중 · 누르면 멈춰요';
+  if(REC){try{REC.stop()}catch(e){}if(REC&&REC._finish)REC._finish();return}
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){kbHint(ta);return}
+  var r=new SR();r.lang='ko-KR';r.interimResults=true;r.continuous=true;
+  var base=ta.value?ta.value.replace(/\s*$/,' '):'', max=ta.maxLength>0?ta.maxLength:600, got=false, failed=false;
+  var finished=false;
+  var reset=function(){b.classList.remove('on');b.querySelector('span').textContent=idle};
+  var finish=function(){if(finished)return;finished=true;clearTimeout(wait);REC=null;reset();if(got){if(done)done()}else{kbHint(ta)}};
+  var wait=setTimeout(function(){if(!got){failed=true;try{r.abort()}catch(e){}finish()}},3500);
+  r.onresult=function(e){got=true;var t='';for(var i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;ta.value=(base+t).slice(0,max);ta.dispatchEvent(new Event('input'))};
+  r.onerror=function(){failed=true};
+  r.onend=finish;
+  r._finish=finish;
+  try{r.start();REC=r;b.classList.add('on');b.querySelector('span').textContent=busy}catch(err){finish()}
+}
+/* ---------- router ---------- */
+function route(){
+  var h=(location.hash||'').replace('#','');
+  var s=byKey(h);
+  var ov=document.querySelector('.overlay');if(ov)ov.remove();if(REC){try{REC.stop()}catch(e){}}
+  if(s){vStation(s)}
+  else if(h==='map'){vMap()}
+  else if(h==='card'||h==='book'){vBook()}
+  else vStart();
+}
+app.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b){e.preventDefault();go(b.dataset.go)}});
+window.addEventListener('hashchange',function(){route();window.scrollTo(0,0)});
+route();
+})();
+</script>
+</body></html>
