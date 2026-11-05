@@ -1,5 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
-<title>왜? 경주</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>왜? 경주</title></head><body><title>왜? 경주</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&family=Gowun+Batang:wght@400;700&display=swap">
@@ -251,6 +250,39 @@ details.raw{font-size:14px}details.raw summary{cursor:pointer;color:var(--ink-fa
 @keyframes ready{50%{box-shadow:0 0 0 7px rgba(46,95,158,.25)}}
 @media (prefers-reduced-motion: reduce){.btn.ready{animation:none}}
 .names{display:flex;flex-direction:column;gap:10px;background:var(--sky-bg);border-radius:16px;padding:14px}
+
+/* v10: covers & learn */
+.covsel{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.covsel span{font-family:var(--display);font-size:15px;color:var(--ink-soft)}
+.covsel button{border-radius:999px;padding:7px 14px;font-family:var(--display);font-size:15px;background:var(--card);color:var(--ink-soft);border:2px solid var(--line)}
+.covsel button[aria-pressed="true"]{background:var(--ink);color:#FFF6E9;border-color:var(--ink)}
+.pg.cvB,.pg.cvE{position:relative;overflow:hidden;min-height:560px;align-items:center;text-align:center;justify-content:flex-start;padding:30px 22px 22px}
+.pg.cvB{background:#FBF6EC}.pg.cvE{background:#DCEBFA}
+.pg .bg{position:absolute;inset:0;width:100%;height:100%}
+.pg.cvB>*:not(.bg),.pg.cvE>*:not(.bg){position:relative}
+.cvB .t{font-family:'Gowun Batang',serif;font-weight:700;font-size:28px;line-height:1.3;color:#16213E}
+.pola{margin:10px 0 0;background:#fff;padding:10px 10px 8px;width:72%;transform:rotate(-3deg);box-shadow:3px 7px 12px rgba(22,33,62,.18)}
+.pola img,.pola .noph{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#DCEBFA}
+.pola .noph svg{width:60%;height:auto;margin:10% auto 0;display:block}
+.pola figcaption{font-family:'Gowun Batang',serif;font-size:13px;color:#3D4766;padding-top:6px}
+.pola .tape{position:absolute;left:38%;top:-10px;width:70px;height:20px;background:rgba(255,214,107,.75);transform:rotate(-6deg)}
+.cvB .st{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.7;color:#3D4766;margin-top:14px}
+.cvB .ft,.cvE .ft{font-family:'Gowun Batang',serif;font-size:13px;color:#16213E;margin-top:auto}
+.cvE .t{font-family:var(--display);font-size:46px;color:#16213E}.cvE .t span{color:#2E5F9E}
+.cvE .st{font-family:var(--display);font-size:19px;color:#3D4766;margin-top:-6px}
+.cvE .chars{display:flex;background:none;box-shadow:none;transform:none;padding:0;align-items:flex-end;justify-content:center;gap:4px;margin-top:auto;width:100%}
+.cvE .chars span{display:block}.cvE .chars svg{width:100%;height:auto;display:block}
+.cvE .chars .m{width:30%}.cvE .chars .c{width:34%}.cvE .chars .tr{width:22%}
+.cvE .ft{font-family:var(--display);color:#2F5A4B;margin-top:10px}
+details.learn{background:#EEF6EC;border-radius:16px;padding:12px 14px}
+details.learn summary{font-family:var(--display);font-size:17px;cursor:pointer;color:#2F5A4B}
+.lr{margin-top:10px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.65}
+.lr h4{margin:8px 0 0;font-family:var(--display);font-weight:400;font-size:15.5px;color:var(--coral-deep)}
+.lr ul{margin:0;padding-left:18px}.lr .mis li{list-style:'☐  '}
+.rec{margin:4px 0;padding:8px 12px;background:#fff;border-left:4px solid #9ED9C5;font-family:'Gowun Batang',serif;font-size:15px}
+.rec cite{display:block;font-style:normal;font-size:12.5px;color:var(--ink-faint);margin-top:4px}
+.ownlink{background:var(--sun-bg);border-radius:12px;padding:8px 12px;font-size:14.5px}
+.links a{color:var(--coral-deep)}
 </style>
 
 <main class="app" id="app" aria-live="polite"></main>
@@ -385,9 +417,9 @@ function subOf(ty){return ty===3?SUB3[S.mode]||TYPES[3].s:TYPES[ty].s}
 function missionOf(s){return S.mode!=='family'&&MIS[S.mode]?MIS[S.mode][s.key]:MISSION[s.key]}
 
 
-function fresh(){return {v:2,mode:'family',auds:['kid','adult'],who:'kid',family:'',ans:{},stamps:{},hidden:{},own:{},photo:{},map:{},photos:{},think:{},order:[],names:{}}}
+function fresh(){return {v:2,mode:'family',auds:['kid','adult'],who:'kid',family:'',ans:{},stamps:{},hidden:{},own:{},photo:{},map:{},photos:{},think:{},order:[],names:{},cover:'B'}}
 function load(){var d=null;try{d=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}return d&&d.v===2?d:fresh()}
-var S=load();['ans','stamps','hidden','own','photo','map','photos','think'].forEach(function(k){S[k]=S[k]||{}});if(!S.auds||!S.auds.length)S.auds=['kid','adult'];if(!S.mode)S.mode='family';S.names=S.names||{};
+var S=load();['ans','stamps','hidden','own','photo','map','photos','think'].forEach(function(k){S[k]=S[k]||{}});if(!S.auds||!S.auds.length)S.auds=['kid','adult'];if(!S.mode)S.mode='family';S.names=S.names||{};if(!S.cover)S.cover='B';
 Object.keys(S.photo).forEach(function(k){if(!S.photos[k]||!S.photos[k].length)S.photos[k]=[{u:S.photo[k],c:''}]});S.photo={};
 if(!Array.isArray(S.order))S.order=ST.filter(function(x){return S.stamps[x.key]}).map(function(x){return x.key});
 function save(){try{localStorage.setItem(SK,JSON.stringify(S));return true}catch(e){return false}}
@@ -535,7 +567,7 @@ function vStation(s){
    whoRow+cards+
    '<p class="prog">'+(done?(cnt===5?'사다리 꼭대기까지 올랐어요!':'책 한 장 완성 · 남은 칸도 올라가 볼까요?'):(cnt>=NEED?'<b>책 한 장</b>을 만들 수 있어요! 아래로 내려가 보세요.':'두 칸 이상 오르면 책 한 장'))+'</p>'+
   '</section>'+
-  panel+make+photoSec+
+  panel+make+(done?learnHTML(s):'')+photoSec+
   (l.length?answersList(s):'')+
   (l.length||done||P.length?'<div class="confirm" id="stReset"><button class="linkbtn" id="stResetBtn">이 장소 처음부터 다시 하기</button></div>':'');
 
@@ -608,7 +640,6 @@ function storyOf(s){
 }
 function bookTitle(){return S.family?(S.family+'의 경주 여행기'):modeOf(S.mode).book}
 function today(){var d=new Date();return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.'}
-function pageCover(){return '<div class="pg cover"><p class="eyebrow">왜? 경주 · 나만의 책 한 권</p><div class="ch" aria-hidden="true">'+CHAR.cheom+'</div><h2 class="ttl">'+esc(bookTitle())+'</h2><p class="by">'+today()+'<br>지은이 · '+esc(S.family||'경주를 걸은 사람')+'</p></div>'}
 /* ---------- 책 문장 엮기 (기록 + 검수된 장소 소개만 사용, 경험은 지어내지 않음) ---------- */
 var SCENE={
  daereungwon:['둥근 무덤들이 낮은 언덕처럼 이어진 대릉원.','천오백 년 전 신라의 왕과 귀족들이 잠든 대릉원.'],
@@ -668,6 +699,60 @@ function storyParas(s){
   return paras;
 }
 
+/* ---------- 표지 (B 수채화 사진첩 · E 그림책) ---------- */
+function season(){var m=new Date().getMonth()+1;return m>=3&&m<=5?'봄':m<=8?'여름':m<=11?'가을':'겨울'}
+function whoLine(){if(S.mode==='solo')return S.family?S.family+'가 혼자 걸으며 묻고 답한 경주':'혼자 걸으며 묻고 답한 경주';
+  var n=S.auds.map(function(k){return S.names[k]}).filter(Boolean);
+  if(n.length)return n.join(', ')+josa(n[n.length-1],'이','가').slice(n[n.length-1].length)+' 함께 묻고 답한 경주';
+  return (S.family||'우리')+josa(S.family||'우리','이','가').slice((S.family||'우리').length)+' 함께 묻고 답한 경주'}
+function coverPhoto(){for(var i=0;i<S.order.length;i++){var s=byKey(S.order[i]);if(s){var u=firstPhoto(s);if(u)return {u:u,c:(pics(s)[0].c||s.name+'에서')}}}return null}
+function pageCover(){
+  var d=new Date(), ym=d.getFullYear()+'. '+(d.getMonth()+1)+'.', ph=coverPhoto();
+  if(S.cover==='E'){
+    return '<div class="pg cvE"><svg class="bg" viewBox="0 0 440 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="440" height="330" fill="#DCEBFA"/><circle cx="372" cy="215" r="30" fill="#FFD66B"/><path d="M0 330 C120 260 260 300 440 250 L440 620 L0 620 Z" fill="#BFE3CF"/><path d="M0 430 C140 380 300 420 440 390 L440 620 L0 620 Z" fill="#9ED9C5"/></svg>'+
+     '<h2 class="t"><span>왜?</span> 경주</h2><p class="st">'+esc((S.mode==='solo'?(S.family||'나'):(S.names.kid||S.family||'우리'))+josa(S.mode==='solo'?(S.family||'나'):(S.names.kid||S.family||'우리'),'이','가').slice((S.mode==='solo'?(S.family||'나'):(S.names.kid||S.family||'우리')).length))+' 묻고 답한 이야기</p>'+
+     '<div class="chars" aria-hidden="true"><span class="m">'+CHAR.mound+'</span><span class="c">'+CHAR.cheom+'</span><span class="tr">'+CHAR.tree+'</span></div>'+
+     '<p class="ft">첨이와 친구들 · '+d.getFullYear()+' '+season()+'</p></div>';
+  }
+  return '<div class="pg cvB"><svg class="bg" viewBox="0 0 440 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="wcb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter></defs><g filter="url(#wcb)" opacity=".75"><circle cx="90" cy="110" r="90" fill="#BFDDF7"/><circle cx="330" cy="80" r="100" fill="#FFD9C7"/><circle cx="250" cy="210" r="70" fill="#FFF0B8"/></g><g opacity=".55" fill="#8EC1EE"><path d="M0 560 C60 500 120 500 170 560 Z"/><path d="M120 560 C190 470 270 470 330 560 Z"/><path d="M300 560 C350 520 400 520 440 560 Z"/><path d="M365 560 C362 520 375 480 380 450 L398 450 C403 480 416 520 413 560 Z" fill="#6A9FD8"/></g><rect x="0" y="556" width="440" height="64" fill="#CFE4F7" opacity=".6"/></svg>'+
+   '<h2 class="t">'+esc(bookTitle())+'</h2>'+
+   '<figure class="pola"><span class="tape"></span>'+(ph?'<img src="'+ph.u+'" alt="표지 사진">':'<span class="noph">'+CHAR.cheom+'</span>')+'<figcaption>'+esc(ph?ph.c:'첫 사진을 찍으면 여기에 붙어요')+'</figcaption></figure>'+
+   '<p class="st">'+esc(whoLine())+'<br>'+d.getFullYear()+'년 '+season()+'</p>'+
+   '<p class="ft">'+esc(S.family||'경주를 걸은 사람')+' · '+ym+'</p></div>';
+}
+/* ---------- 스스로 더 배우기 (검수 전 초안 · 출처: 한국민족문화대백과사전, 주간경향 2022.10) ---------- */
+var LEARN={
+ cheomseongdae:{
+  adult:{
+   facts:['신라 선덕여왕 때 세워진 것으로 전해지며, 1962년 국보로 지정되었어요.','위는 네모나고 아래는 둥근 모양으로, 돌을 쌓아 올렸어요.','높이는 약 9m예요. 2009년 실측으로는 8.77m였어요.','2016년 경주 지진 뒤 북쪽으로 조금씩 기울어, 지금도 꾸준히 살피며 지키고 있어요.'],
+   records:[
+    {src:'『삼국유사』',txt:'별기(別記)에 이르기를, 이 왕(선덕왕) 때 돌을 다듬어 첨성대를 쌓았다고 한다.'},
+    {src:'『세종실록』 지리지 · 『신증동국여지승람』',txt:'첨성대는 선덕여왕이 쌓았다. 돌을 쌓아 만들었는데 위는 네모나고 아래는 둥글며, 가운데로 사람이 오르내렸다.'}
+   ],
+   open:['별의 움직임을 살피던 천문대였을까요?','계절과 절기를 재던 해시계(규표)였을까요?','불교 세계의 중심 산(수미산)을 본뜬 제단이었을까요?','학자들의 생각은 지금도 여러 갈래예요. 여러분은 어떤 근거로 무엇이라 생각하나요?'],
+   links:[['국가유산포털','https://www.heritage.go.kr'],['한국민족문화대백과사전 · 첨성대','https://encykorea.aks.ac.kr/Article/E0056197'],['국립경주박물관','https://gyeongju.museum.go.kr']]
+  },
+  kid:{
+   facts:['나는 천삼백 년도 더 전, 신라 선덕여왕 때 태어났대.','내 키는 약 9m야. 아파트 3층쯤 돼!','위는 네모, 아래는 동그라미 모양이야. 한번 그려 볼래?','큰 지진 뒤로 몸이 아주 조금 기울어서, 어른들이 나를 계속 살펴 주고 있어.'],
+   missions:['집에 가서 찾아보기: 옛날 사람들은 별을 보고 무엇을 알 수 있었을까?','첨성대를 그리고, 창문이 어디쯤 있는지 표시해 보기','내가 생각하는 첨성대의 쓰임을 한 줄로 적어 보기']
+  }
+ }
+};
+function learnHTML(s){
+  var L=LEARN[s.key];
+  if(!L)return '<details class="learn"><summary>스스로 더 배우기</summary><p class="muted" style="margin-top:8px">'+s.name+'의 더 배우기는 본사업에서 해설사·전문가 검수를 거쳐 열려요. 시제품에서는 첨성대에서 미리 볼 수 있어요.</p></details>';
+  var a=L.adult,k=L.kid,own=S.own[s.key];
+  return '<details class="learn"><summary>스스로 더 배우기 · '+s.name+'</summary>'+
+   '<div class="lr"><h4>아이와 함께: 첨이의 비밀</h4><ul>'+k.facts.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>'+
+   '<h4>집에서 해 볼 탐구 미션</h4><ul class="mis">'+k.missions.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+
+   '<div class="lr"><h4>어른을 위한: 알아 두면 좋은 사실</h4><ul>'+a.facts.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>'+
+   '<h4>옛 기록 한 줄 읽기</h4>'+a.records.map(function(r){return '<blockquote class="rec">'+esc(r.txt)+'<cite>'+esc(r.src)+' (뜻풀이)</cite></blockquote>'}).join('')+
+   '<h4>아직 풀리지 않은 질문</h4><ul>'+a.open.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>'+
+   (own?'<div class="ownlink"><b>'+we()+'의 왜?</b> “'+esc(own)+'”<br>위의 옛 기록과 아래 누리집에서 단서를 찾아보세요.</div>':'')+
+   '<h4>더 찾아볼 곳</h4><p class="links">'+a.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>'}).join(' · ')+'</p>'+
+   '<p class="ainote">시제품 초안 · 본사업에서 해설사·전문가 검수 후 확정</p></div>'+
+  '</details>';
+}
 function pageToc(ch){
   var who=S.mode==='solo'?'나 혼자':S.auds.map(function(k){return nm(k)}).join(' · ');
   return '<div class="pg"><p class="run">차례</p><h2 class="h">이 책의 차례</h2><ol class="toc">'+ch.map(function(s,i){var pn=pics(s).length;return '<li><span>제'+(i+1)+'장</span> '+s.name+'<i>'+SUBT[s.key]+'</i></li>'}).join('')+'</ol>'+
@@ -681,7 +766,7 @@ function pageChapter(s,i){
    (best?'<blockquote class="pull">“'+esc(best.t)+'”<cite>— '+esc(person(best.a))+'</cite></blockquote>':'')+
    '<div class="prose">'+paras.map(function(t){return '<p>'+esc(t)+'</p>'}).join('')+'</div>'+
    '<div class="say"><span class="mini" aria-hidden="true">'+CHAR[s.ch]+'</span><p><b>'+ASKER[s.key]+'의 한마디</b>'+esc(LAST[s.key])+'</p></div>'+
-   '<p class="known"><b>알고 있나요?</b> '+esc(s.fact)+'</p>'+
+   '<p class="known"><b>알고 있나요?</b> '+esc(s.fact)+'</p>'+learnHTML(s)+
    '<details class="raw"><summary>이 장의 기록 그대로 보기</summary><div class="kv">'+l.map(function(e){return '<p><b>'+TYPES[e.ty].t+'</b> 「'+esc(Q(s,e.ty,e.a))+'」<br>→ '+esc(e.t===SPOKEN?'말로 생각을 나눴어요':e.t)+'</p>'}).join('')+'</div></details>'+
    '<p class="ainote">시제품은 기록을 그대로 엮었어요. 본사업에서는 AI 글 작가가 하지 않은 일은 쓰지 않고 더 풍부한 문장으로 다듬어요.</p></div>'}
 function pageEnd(ch){var owns=ch.filter(function(s){return S.own[s.key]}),qN=ch.reduce(function(a,s){return a+list(s).length},0),pN=ch.reduce(function(a,s){return a+pics(s).length},0);
@@ -698,6 +783,7 @@ function vBook(){
   app.innerHTML=
   '<div class="topbar"><button class="back" data-go="map">← 지도</button><span class="stampcount">책 '+n+'장'+dots()+'</span></div>'+
   (n<4?'<p class="paper">지금은 '+n+'장이에요. 4장이 모이면 책으로 묶을 수 있어요. 지금은 미리 보기예요.</p>':'')+
+  '<div class="covsel" role="group" aria-label="표지 고르기"><span>표지</span><button data-cov="B" aria-pressed="'+(S.cover!=='E')+'">수채화 사진첩</button><button data-cov="E" aria-pressed="'+(S.cover==='E')+'">그림책</button></div>'+
   '<section class="bookview" aria-label="책 넘겨 보기" aria-roledescription="책"><div class="sheet" id="sheet">'+pages[pg]+'<p class="pno">'+(pg+1)+' / '+pages.length+'</p></div></section>'+
   '<div class="pager"><button class="btn ghost" id="prev"'+(pg===0?' disabled':'')+'>← 앞 장</button><button class="btn" id="next"'+(pg===pages.length-1?' disabled':'')+'>다음 장 →</button></div>'+
   '<label class="field paper" for="fam2">책에 들어갈 이름<input type="text" id="fam2" maxlength="14" placeholder="'+modeOf(S.mode).ph+'" value="'+esc(S.family)+'"></label>'+
@@ -712,12 +798,13 @@ function vBook(){
   '<div class="confirm" id="resetBox"><button class="btn ghost" id="reset">처음부터 다시 체험하기</button></div>'+
   '<p class="foot">시제품 · 답과 사진은 서버로 보내지 않고 이 브라우저에만 남아요</p>';
   function turn(d){var np=cur.page+d;if(np<0||np>=pages.length)return;cur.page=np;vBook();var b=app.querySelector('.bookview');if(b)b.scrollIntoView({behavior:'smooth',block:'start'})}
+  app.querySelectorAll('[data-cov]').forEach(function(b){b.onclick=function(){S.cover=b.dataset.cov;save();vBook()}});
   document.getElementById('prev').onclick=function(){turn(-1)};
   document.getElementById('next').onclick=function(){turn(1)};
   var sh=document.getElementById('sheet'),x0=null;
   sh.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
   sh.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>60)turn(dx<0?1:-1)});
-  var t;document.getElementById('fam2').oninput=function(e){S.family=e.target.value.trim();save();clearTimeout(t);t=setTimeout(function(){var h=app.querySelector('.pg.cover .ttl');if(h)h.textContent=bookTitle();drawCard()},400)};
+  var t;document.getElementById('fam2').oninput=function(e){S.family=e.target.value.trim();save();clearTimeout(t);t=setTimeout(function(){if(cur.page===0){vBook()}else{drawCard()}},400)};
   document.getElementById('reset').onclick=function(){var box=document.getElementById('resetBox');box.innerHTML='<span>기록을 모두 지울까요?</span><button class="btn" id="yes">지우기</button><button class="btn ghost" id="no">취소</button>';
     document.getElementById('yes').onclick=function(){S=fresh();save();cur={};go('')};
     document.getElementById('no').onclick=vBook};
@@ -730,39 +817,53 @@ function wrapLines(c,text,maxW,sep){var parts=sep?text.split(sep):text.split(' '
   for(var i=0;i<parts.length;i++){var test=line?line+joiner+parts[i]:parts[i];if(c.measureText(test).width>maxW&&line){lines.push(line);line=parts[i]}else line=test}
   if(line)lines.push(line);return lines}
 function drawCard(){
-  var W=1080,H=1500,cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');
-  var ch=S.order.map(byKey).filter(Boolean);
-  var fontsReady=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('40px Jua'),document.fonts.load('34px "Noto Sans KR"')]).catch(function(){}):Promise.resolve();
-  var photos=[];
-  fontsReady.then(function(){return Promise.all(ch.slice(0,4).map(function(s){return urlImg(firstPhoto(s))}))}).then(function(p){photos=p;return svgImg(CHAR.cheom)}).then(function(im){
-    c.fillStyle='#14254A';c.fillRect(0,0,W,H);
-    c.fillStyle='#0E1A36';c.fillRect(0,0,70,H);c.fillStyle='#FFD66B';c.fillRect(70,0,6,H);
-    var stars=[[200,110,4],[420,80,3],[760,90,5],[1000,300,4],[160,420,3],[960,560,3],[220,720,4],[900,800,3],[560,100,3]];
-    stars.forEach(function(s){c.fillStyle=s[2]>4?'#FFD66B':'#FFF6E9';c.beginPath();c.arc(s[0],s[1],s[2],0,7);c.fill()});
-    c.fillStyle='#FFD66B';c.beginPath();c.arc(930,120,44,0,7);c.fill();c.fillStyle='#14254A';c.beginPath();c.arc(948,106,41,0,7);c.fill();
-    c.strokeStyle='rgba(255,214,107,.55)';c.lineWidth=3;rr(c,120,60,900,1380,24);c.stroke();
-    c.textAlign='center';c.fillStyle='#FFD66B';c.font='36px Jua, sans-serif';c.fillText('왜? 경주 · 나만의 책 한 권',575,170);
-    c.fillStyle='#FFF6E9';c.font='84px Jua, sans-serif';var tl=wrapLines(c,bookTitle(),760).slice(0,2);tl.forEach(function(l,k){c.fillText(l,575,290+k*100)});
-    var ty=290+tl.length*100;
-    if(im){c.fillStyle='#1F3566';c.beginPath();c.arc(575,ty+190,190,0,7);c.fill();c.strokeStyle='rgba(255,214,107,.6)';c.lineWidth=4;c.beginPath();c.arc(575,ty+190,190,0,7);c.stroke();var iw=300,ih=Math.round(iw*im.height/im.width);c.drawImage(im,575-iw/2,ty+190-ih/2,iw,ih)}
-    var py=ty+420;
-    if(photos.some(Boolean)){var ps=170,gap=24,cnt=photos.length,x0=575-(cnt*ps+(cnt-1)*gap)/2;
-      photos.forEach(function(ph,k){var x=x0+k*(ps+gap);c.save();c.translate(x+ps/2,py+ps/2);c.rotate((k%2?1:-1)*0.04);
-        c.fillStyle='#FFFDF8';rr(c,-ps/2,-ps/2,ps,ps,12);c.fill();
-        if(ph){var inner=ps-14,sc=Math.max(inner/ph.width,inner/ph.height),sw=inner/sc,sh=inner/sc;c.save();rr(c,-inner/2,-inner/2,inner,inner,8);c.clip();c.drawImage(ph,(ph.width-sw)/2,(ph.height-sh)/2,sw,sh,-inner/2,-inner/2,inner,inner);c.restore()}
-        else{c.fillStyle='#DCEBFA';rr(c,-ps/2+7,-ps/2+7,ps-14,ps-14,8);c.fill()}
-        c.restore()});py+=ps+50}
-    c.fillStyle='#C9D6EE';c.font='34px "Noto Sans KR", sans-serif';
-    var tocL=wrapLines(c,ch.length?ch.map(function(s,i){return '제'+(i+1)+'장 '+s.name}).join(' · '):'아직 쓴 장이 없어요',820,' · ').slice(0,2);
-    tocL.forEach(function(l,k){c.fillText(l,575,py+k*48)});
-    c.fillStyle='#FFF6E9';c.font='32px "Noto Sans KR", sans-serif';c.fillText(today()+'  ·  지은이 '+(S.family||'경주를 걸은 사람'),575,1330);
-    c.fillStyle='#FFD66B';c.font='32px Jua, sans-serif';c.fillText('#왜경주  ·  묻고 답하며 완성하는 나만의 책 한 권',575,1395);
+  var W=1080,H=1520,cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');
+  var fontsReady=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('40px Jua'),document.fonts.load('700 40px "Gowun Batang"'),document.fonts.load('34px "Noto Sans KR"')]).catch(function(){}):Promise.resolve();
+  var ph=coverPhoto(), d=new Date(), imgs={};
+  fontsReady.then(function(){return urlImg(ph?ph.u:null)}).then(function(p){imgs.ph=p;return Promise.all([svgImg(CHAR.cheom),svgImg(CHAR.mound),svgImg(CHAR.tree)])}).then(function(a){imgs.cheom=a[0];imgs.mound=a[1];imgs.tree=a[2];
+    if(S.cover==='E'){
+      c.fillStyle='#DCEBFA';c.fillRect(0,0,W,H);
+      c.fillStyle='#FFD66B';c.beginPath();c.arc(900,520,72,0,7);c.fill();
+      c.fillStyle='#BFE3CF';c.beginPath();c.moveTo(0,810);c.bezierCurveTo(300,640,640,740,W,615);c.lineTo(W,H);c.lineTo(0,H);c.closePath();c.fill();
+      c.fillStyle='#9ED9C5';c.beginPath();c.moveTo(0,1060);c.bezierCurveTo(340,930,740,1030,W,960);c.lineTo(W,H);c.lineTo(0,H);c.closePath();c.fill();
+      if(imgs.mound)c.drawImage(imgs.mound,90,880,300,183);
+      if(imgs.tree)c.drawImage(imgs.tree,770,820,200,240);
+      if(imgs.cheom)c.drawImage(imgs.cheom,370,600,340,404);
+      c.textAlign='center';c.fillStyle='#16213E';c.font='150px Jua, sans-serif';
+      c.fillStyle='#2E5F9E';c.fillText('왜?',W/2-150,250);c.fillStyle='#16213E';c.fillText('경주',W/2+150,250);
+      var who=S.mode==='solo'?(S.family||'나'):(S.names.kid||S.family||'우리');
+      c.fillStyle='#3D4766';c.font='56px Jua, sans-serif';c.fillText(josa(who,'이','가')+' 묻고 답한 이야기',W/2,350);
+      c.fillStyle='#2F5A4B';c.font='44px Jua, sans-serif';c.fillText('첨이와 친구들 · '+d.getFullYear()+' '+season(),W/2,1420);
+    } else {
+      c.fillStyle='#FBF6EC';c.fillRect(0,0,W,H);
+      [[220,270,240,'rgba(191,221,247,.75)'],[820,200,260,'rgba(255,217,199,.75)'],[620,520,180,'rgba(255,240,184,.7)']].forEach(function(b){var g=c.createRadialGradient(b[0],b[1],0,b[0],b[1],b[2]);g.addColorStop(0,b[3]);g.addColorStop(1,'rgba(251,246,236,0)');c.fillStyle=g;c.fillRect(0,0,W,H)});
+      c.fillStyle='rgba(142,193,238,.55)';
+      [[0,1370,150,1220,410,1370],[300,1370,470,1150,800,1370],[740,1370,860,1270,W,1370]].forEach(function(m){c.beginPath();c.moveTo(m[0],m[1]);c.quadraticCurveTo(m[2],m[3],m[4],m[5]);c.closePath();c.fill()});
+      c.fillStyle='rgba(106,159,216,.6)';c.beginPath();c.moveTo(895,1370);c.bezierCurveTo(888,1270,920,1180,930,1105);c.lineTo(975,1105);c.bezierCurveTo(985,1180,1017,1270,1010,1370);c.closePath();c.fill();
+      c.fillStyle='rgba(207,228,247,.6)';c.fillRect(0,1365,W,H-1365);
+      c.textAlign='center';c.fillStyle='#16213E';c.font='700 82px "Gowun Batang", serif';
+      var tl=wrapLines(c,bookTitle(),900).slice(0,2);tl.forEach(function(l,k){c.fillText(l,W/2,170+k*100)});
+      var py=200+tl.length*100, pw=600, phh=700;
+      c.save();c.translate(W/2,py+phh/2);c.rotate(-0.05);
+      c.fillStyle='rgba(22,33,62,.18)';c.fillRect(-pw/2+14,-phh/2+20,pw,phh);
+      c.fillStyle='#FFFFFF';c.fillRect(-pw/2,-phh/2,pw,phh);
+      var iw=pw-56,ih=iw;
+      if(imgs.ph){var p=imgs.ph,sc=Math.max(iw/p.width,ih/p.height),sw=iw/sc,sh=ih/sc;c.drawImage(p,(p.width-sw)/2,(p.height-sh)/2,sw,sh,-iw/2,-phh/2+28,iw,ih)}
+      else{c.fillStyle='#DCEBFA';c.fillRect(-iw/2,-phh/2+28,iw,ih);if(imgs.cheom)c.drawImage(imgs.cheom,-150,-phh/2+80,300,356)}
+      c.fillStyle='#3D4766';c.font='38px "Gowun Batang", serif';c.fillText(ph?ph.c:'첫 사진을 찍으면 여기에 붙어요',0,phh/2-50);
+      c.fillStyle='rgba(255,214,107,.75)';c.save();c.rotate(-0.1);c.fillRect(-90,-phh/2-24,180,54);c.restore();
+      c.restore();
+      var sy=py+phh+90;
+      c.fillStyle='#3D4766';c.font='44px "Gowun Batang", serif';
+      wrapLines(c,whoLine(),900).slice(0,2).forEach(function(l,k){c.fillText(l,W/2,sy+k*58)});
+      c.fillText(d.getFullYear()+'년 '+season(),W/2,sy+2*58+4);
+      c.fillStyle='#16213E';c.font='38px "Gowun Batang", serif';c.fillText((S.family||'경주를 걸은 사람')+' · '+d.getFullYear()+'. '+(d.getMonth()+1)+'.',W/2,1460);
+    }
     var url='';try{url=cv.toDataURL('image/png')}catch(e){}
     var wrapEl=document.getElementById('cardWrap');if(!wrapEl)return;
     wrapEl.innerHTML=url?'<img class="cardimg" alt="나만의 책 표지 이미지" src="'+url+'">':'<p class="paper">이 브라우저에서는 표지 이미지를 만들 수 없어요.</p>';
   });
 }
-
 
 /* ---------- 말로 남기기 (음성 → 글자) ---------- */
 var REC=null;
